@@ -6,3 +6,79 @@ body {
 a {
   color: #00B7FF;
 }
+
+.container {
+	padding: 5px;
+	margin: 0;
+}
+
+.offerContainer img {
+    display:block;
+    margin:auto;
+	width: 100px;
+	height: 100px;
+}
+
+.offerContainer{ 
+	text-align: center; 
+}
+
+.offerContainer div:hover {
+	background: #edecec;
+}
+
+.offerContainer a {
+	color: black;
+	font-size: 22px;
+	text-align: center;
+}
+
+.offerContainer .restaurantName {
+	font-weight: bold;
+}
+
+.offerContainer .price {
+	font-size: 22px;
+ 	color: #3EA055;
+}
+
+.modalContainer img{
+	display:block;
+    margin:auto;
+	width: 100px;
+	height: 100px;
+}
+
+.modalContainer {
+	text-align: center;
+}
+
+.modalContainer .price {
+ 	color: #3EA055;
+}
+
+.well {
+	background: #f5f5f5;
+}
+
+b {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+/*.form-horizontal .form-group button {
+	margin-left: 5px;
+}*/
+
+/*[class*="col-"] {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+[class*="col-"]:first-child {
+  padding-left: 0px;
+}
+
+[class*="col-"]:last-child {
+  padding-right: 0px;
+}*/

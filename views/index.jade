@@ -1,5 +1,81 @@
 extends layout
 
 block content
-  h1 Dino
-  p Welcome to #{title}
+	div(class="container-fluid")
+		div(class="row")
+			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
+				div(class="well col-xs-12 col-sm-12 col-md-12 col-lg-12")
+					h1(class="text-center") Dino
+					br
+					p(class="text-center") Welcome to #{title}
+					br
+					br
+					form
+						div(class="form-group has-feedback")
+							input(type="text" class="form-control" id="searchInput" placeholder="Search")
+							i(class="glyphicon glyphicon-search form-control-feedback")
+						div(class="form-group")
+							div(class="btn-group" role="group" aria-label="...")
+								a(class="btn btn-default active") Fast Food
+								a(class="btn btn-default") Asian
+								a(class="btn btn-default active") Fish
+								a(class="btn btn-default") Steak
+								a(class="btn btn-default") Italian
+								a(class="btn btn-default") Vegan
+						div(class="form-group")
+							b 500 kr 
+							input(input id="ex2" type="text" class="span2" value="" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value="[500,5000]")
+							b 10.000 kr
+						div(class="form-group")
+							button(type="submit" class="btn btn-primary pull-right") Search
+		div(class="row")
+			div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
+				a(data-toggle="modal" data-target=".offer-modal-1")
+					div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
+						h4(class="restaurantName") Fish Company
+						img(src="img/fclogo.png")
+						h4 Finest Fish
+						h4(class="price") 5.400 kr
+			div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
+				a(data-toggle="modal" data-target=".offer-modal-2")
+					div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
+						h4(class="restaurantName") Fish Company
+						img(src="img/fclogo.png")
+						h4 Finest Fish
+						h4(class="price") 5.400 kr
+			div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
+				a(data-toggle="modal" data-target=".offer-modal")
+					div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
+						h4(class="restaurantName") Fish Company
+						img(src="img/fclogo.png")
+						h4 Finest Fish
+						h4(class="price") 5.400 kr
+			div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
+				a(data-toggle="modal" data-target=".offer-modal")
+					div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
+						h4(class="restaurantName") Fish Company
+						img(src="img/fclogo.png")
+						h4 Finest Fish
+						h4(class="price") 5.400 kr
+
+			//- Offer Modal View
+			div(class="modalContainer modal fade offer-modal-1" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
+				div(class="modal-dialog modal-lg" role="document")
+					div(class="modal-content")
+						h2 FINEST FISH 1
+						img(src="img/fclogo.png")
+						p straight from the sea, via our old friend the FISHERMAN – Please consult your waiter
+						h3 5.400 kr
+						br
+							
+			div(class="modalContainer modal fade offer-modal-2" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
+				div(class="modal-dialog modal-lg" role="document")
+					div(class="modal-content")
+						h2 FINEST FISH 1
+						img(src="img/fclogo.png")
+						p straight from the sea, via our old friend the FISHERMAN – Please consult your waiter
+						h3 5.400 kr
+						br
+							
+
+
