@@ -15,17 +15,18 @@ block content
 							input(type="text" class="form-control" id="searchInput" placeholder="Search")
 							i(class="glyphicon glyphicon-search form-control-feedback")
 						div(class="form-group")
-							div(class="btn-group" role="group" aria-label="...")
-								a(class="btn btn-default active") Fast Food
+							div(class="btn-group type-group" role="group" aria-label="...")
+								a(class="btn btn-default") Fast Food
 								a(class="btn btn-default") Asian
-								a(class="btn btn-default active") Fish
+								a(class="btn btn-default") Fish
 								a(class="btn btn-default") Steak
 								a(class="btn btn-default") Italian
 								a(class="btn btn-default") Vegan
+								a(class="btn btn-default" href="/kebab") Kebab
 						div(class="form-group")
-							b 500 kr 
-							input(input id="ex2" type="text" class="span2" value="" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value="[500,5000]")
-							b 10.000 kr
+							b(id="price-slider-low") 500 kr 
+							input(input id="price-slider" type="text" class="span2" value="" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value="[500,10000]" data-slider-tooltip="hide")
+							b(id="price-slider-high") 10000 kr
 						div(class="form-group")
 							button(type="submit" class="btn btn-primary pull-right") Search
 		div(class="row")
