@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: './public/img/restaurantImg' });
-var User = require('../models/user');
+var User = require('../lib/user');
 
 
 
