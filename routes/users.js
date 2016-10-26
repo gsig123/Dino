@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: './public/img/restaurantImg' });
-var User = require('../lib/user');
+var DBController = require('../lib/DBController');
 
 
 
@@ -21,8 +21,6 @@ router.get('/login', function(req, res, next){
 router.get('/signup', upload.single('restaurantImage'), function(req, res, next){
 	res.render('signup');
 });
-
-
 
 router.post('/signup', upload.single('restaurantImage'), function(req, res, next){
 
@@ -86,7 +84,7 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
     	};
 
     	// Create a new user in the database
-    	User.createUser(newUser, function(err, user){
+    	DBController.createUser(newUser, function(err, user){
     		if(err) throw err;
     		console.log(user);
     	});
@@ -94,6 +92,11 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
     	// Redirect to index
     	res.redirect('/');
     }
+});
+
+router.post('/login', function(req, res, next){
+
+
 });
 
 
