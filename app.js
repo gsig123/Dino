@@ -6,19 +6,27 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
 
+// Handle Sessions
 app.use(session({
   secret: 'this is our secret',
   resave: false,
   saveUninitialized: true
 }));
 
-// view engine setup
+// Passport Setup
+app.use(passport.initialize());
+app.use(passport.session());
+
+// View Engine Setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -39,6 +47,19 @@ app.use(expressValidator({
     };
   }
 }));
+
+// Set Up Flash Messages
+app.use(require('connect-flash')());
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+
+// Set User up as a global variable
+app.get('*', function(req, res, next){
+  res.locals.user = req.user || null; 
+  next();
+});
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

@@ -3,6 +3,8 @@ var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: './public/img/restaurantImg' });
 var DBController = require('../lib/DBController');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 
 
@@ -13,10 +15,47 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/login', function(req, res, next){
-	res.render('login');
+
+   res.render('login');
+
+});
+
+// Try to login.
+router.post('/login', passport.authenticate('local', { failureRedirect: '/users/login' }), function(req, res, next){
+        res.redirect('admin');
 });
 
 
+// Serialize user instance to the session
+passport.serializeUser(function(user, done){
+    done(null, user.id);
+});
+
+// Deserialize user instance from the session
+passport.deserializeUser(function(id, done){
+    DBController.getUserById(id, function(err, user){
+        done(err, user);
+    });
+});
+
+// Middleware to authenticate username and corresponding password
+passport.use(new LocalStrategy(function(email, password, done){
+  DBController.getUserByEmail(email, function(err, user){
+    if(err) throw err;
+    if(!user){
+      return done(null, false, {message: 'Unknown User'});
+    }
+
+    DBController.comparePasswords(password, user.password, function(err, isMatch){
+      if(err) return done(err);
+      if(isMatch){
+        return done(null, user);
+      } else {
+        return done(null, false, {message:'Invalid Password'});
+      }
+    });
+  });
+}));
 
 router.get('/signup', upload.single('restaurantImage'), function(req, res, next){
 	res.render('signup');
