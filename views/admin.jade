@@ -20,12 +20,52 @@ block content
 				label Type
 				br
 				select(name="type")
-					option(value="fish") Fish
-					option(value="burger") Burger
-					option(value="kebab") Kebab
+					option(value="Fast Food") Fast Food
+					option(value="Asian") Asian
+					option(value="Fish") Fish
+					option(value="Steak") Steak
+					option(value="Italian") Italian
+					option(value="Vegan") Vegan
+					option(value="Kebab") Kebab
+					option(value="Burger") Burger
+					option(value="Pizza") Pizza
 			div(class="form-group")
 				label Description 
 				textarea(class="form-control", name="description", placeholder="Enter Description")
+			div(class="form-group")
+				label Start Date
+				br
+				input(type="date", name="startDate") 
+			div(class="form-group")
+				label End Date
+				br
+				input(type="date", name="endDate") 
+			div(class="form-group")
+				p Days when offer is available
+				label All days
+				input(type="checkbox", name="allDays") 
+				label Mondays
+				input(type="checkbox", name="mondays") 
+				label Tuesdays
+				input(type="checkbox", name="tuesdays") 
+				label Wednesdays
+				input(type="checkbox", name="wednesdays") 
+				label Thursdays
+				input(type="checkbox", name="thursdays") 
+				label Fridays
+				input(type="checkbox", name="fridays")
+				label Saturdays
+				input(type="checkbox", name="saturdays")
+				label Sundays
+				input(type="checkbox", name="sundays") 
+			div(class="form-group")
+				label Available From
+				br
+				input(type="time", name="timeFrom")
+			div(class="form-group")
+				label Available To
+				br
+				input(type="time", name="timeTo")
 			div(class="form-group")
 				label Image
 				input(type="file", class="form-control", name="offerImage")
