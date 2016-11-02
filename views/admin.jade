@@ -1,5 +1,32 @@
 extends layout
 
 block content
-	p You are now logged in as #{user.restaurantName}
-	p Hello World
+	h3 You are now logged in as #{user.restaurantName}
+	div(class="well")
+		br
+		h2 Add an offer
+		if errors
+			for error in errors
+				div(class="alert alert-danger") #{error.msg}
+
+		form(method="post", action="/users/addOffer", enctype="multipart/form-data")
+			div(class="form-group")
+				label Name of the offer
+				input(class="form-control", name="offerName", type="text", placeholder="Enter offer name")
+			div(class="form-group")
+				label Price
+				input(class="form-control", name="price", type="number", placeholder="Enter price")
+			div(class="form-group")
+				label Type
+				br
+				select(name="type")
+					option(value="fish") Fish
+					option(value="burger") Burger
+					option(value="kebab") Kebab
+			div(class="form-group")
+				label Description 
+				textarea(class="form-control", name="description", placeholder="Enter Description")
+			div(class="form-group")
+				label Image
+				input(type="file", class="form-control", name="offerImage")
+			input(class="btn btn-primary", type="submit", name="submit", value="Add offer")

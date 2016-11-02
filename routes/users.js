@@ -5,7 +5,7 @@ var upload = multer({ dest: './public/img/restaurantImg' });
 var DBController = require('../lib/DBController');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
+var users = require('../lib/users');
 
 
 router.get('/', function(req, res, next) {
@@ -14,48 +14,37 @@ router.get('/', function(req, res, next) {
 
 
 
-router.get('/login', function(req, res, next){
-
+router.get('/login', redirectIfLoggedIn, function(req, res, next){
    res.render('login');
 
 });
 
-// Try to login.
-router.post('/login', passport.authenticate('local', { failureRedirect: '/users/login' }), function(req, res, next){
-        res.redirect('admin');
-});
-
-
-// Serialize user instance to the session
-passport.serializeUser(function(user, done){
-    done(null, user.id);
-});
-
-// Deserialize user instance from the session
-passport.deserializeUser(function(id, done){
-    DBController.getUserById(id, function(err, user){
-        done(err, user);
-    });
-});
-
-// Middleware to authenticate username and corresponding password
-passport.use(new LocalStrategy(function(email, password, done){
-  DBController.getUserByEmail(email, function(err, user){
-    if(err) throw err;
-    if(!user){
-      return done(null, false, {message: 'Unknown User'});
+function redirectIfLoggedIn(req, res, next){
+    if (req.session.user){
+        res.redirect('/');
+    } else {
+        next();
     }
+}
 
-    DBController.comparePasswords(password, user.password, function(err, isMatch){
-      if(err) return done(err);
-      if(isMatch){
-        return done(null, user);
-      } else {
-        return done(null, false, {message:'Invalid Password'});
-      }
-    });
-  });
-}));
+router.post('/login', function(req, res, next){
+    var email = req.body.email;
+    var password = req.body.password;
+    users.auth(email, password, function(err, user){
+        if(user){
+            req.session.regenerate(function (){
+                req.session.user = user;
+                console.log(user);
+                res.redirect('admin');
+            });
+        } else {
+            console.log("Passwords dont match");
+            res.render('login');
+        }
+    })
+});
+
+
 
 router.get('/signup', upload.single('restaurantImage'), function(req, res, next){
 	res.render('signup');
@@ -133,16 +122,26 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
     }
 });
 
-router.post('/login', function(req, res, next){
+router.get('/admin', ensureLoggedIn, function(req, res, next){
+    var user = req.session.user;
+	res.render('admin', {user: user});
+});
 
+function ensureLoggedIn(req, res, next){
+    if(req.session.user){
+        next();
+    } else {
+        res.redirect('/users/login');
+    }
+};
 
+router.get('/logout', function(req, res, next){
+    req.session.destroy(function(){
+        res.redirect('/');
+    });
 });
 
 
-
-router.get('/admin', function(req, res, next){
-	res.render('admin');
-});
 
 
 

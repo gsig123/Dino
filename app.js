@@ -4,16 +4,28 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var expressValidator = require('express-validator');
 var session = require('express-session');
 var passport = require('passport');
+var expressValidator = require('express-validator');
 var LocalStrategy = require('passport-local').Strategy;
+var multer = require('multer');
 var flash = require('connect-flash');
+var bcrypt = require('bcryptjs');
+var pg = require('pg');
+var cons = require('consolidate');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Handle Sessions
 app.use(session({
@@ -57,17 +69,9 @@ app.use(function(req, res, next){
 
 // Set User up as a global variable
 app.get('*', function(req, res, next){
-  res.locals.user = req.user || null; 
+  res.locals.user = req.session.user || null; 
   next();
 });
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);

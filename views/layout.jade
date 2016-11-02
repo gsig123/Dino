@@ -18,10 +18,14 @@ html
 					a(class="navbar-brand" href="/") Dino
 				div(id="navbar" class="navbar-collapse collapse")
 					ul(class="nav navbar-nav navbar-right")
-						li
-							a(href="/users/login") Login
-						li 
-							a(href="/users/signup") Sign Up
+						if user 
+							li 
+								a(href="/users/logout") Logout
+						else
+							li
+									a(href="/users/login") Login
+							li 
+								a(href="/users/signup") Sign Up
 
 		block content
 	script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
