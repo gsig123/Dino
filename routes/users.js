@@ -3,22 +3,17 @@ var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: './public/img/restaurantImg' });
 var DBController = require('../lib/DBController');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var users = require('../lib/users');
 
-
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-
-
-
+// GET Login view. calls middleware "redirectIfLoggedIn" to check if 
+// user is already logged in and then redirects. 
 router.get('/login', redirectIfLoggedIn, function(req, res, next){
    res.render('login');
 
 });
 
+// Middleware to check if user is logged in
+// If user is logged in -> Redirect to index
 function redirectIfLoggedIn(req, res, next){
     if (req.session.user){
         res.redirect('/');
@@ -27,6 +22,9 @@ function redirectIfLoggedIn(req, res, next){
     }
 }
 
+// POST on login view. 
+// Tries to log user in 
+// if it doesn't work -> Render to login page.
 router.post('/login', function(req, res, next){
     var email = req.body.email;
     var password = req.body.password;
@@ -45,11 +43,14 @@ router.post('/login', function(req, res, next){
 });
 
 
-
+// GET signup view
 router.get('/signup', function(req, res, next){
 	res.render('signup');
 });
 
+// POST on signup view. 
+// Tries to signup a new user.
+// If errors -> Render signup page with errors. 
 router.post('/signup', upload.single('restaurantImage'), function(req, res, next){
 
 	// Get values from form
@@ -124,11 +125,26 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
     }
 });
 
+// GET admin view
+// Calls middleware "ensureLoggedIn" to make sure user is logged in. 
+// Renders view with user object. 
 router.get('/admin', ensureLoggedIn, function(req, res, next){
     var user = req.session.user;
 	res.render('admin', {user: user});
 });
 
+// Middleware to make sure user is logged in. 
+// If he is not logged in -> Redirect to login page. 
+function ensureLoggedIn(req, res, next){
+    if(req.session.user){
+        next();
+    } else {
+        res.redirect('/users/login');
+    }
+};
+
+// POST on admin page to add a new offer. 
+// Redirects to admin page
 router.post('/addOffer', upload.single('offerImage'), function(req, res, next){
         // Get values from form
     var offerName = req.body.offerName;
@@ -147,6 +163,7 @@ router.post('/addOffer', upload.single('offerImage'), function(req, res, next){
         sundays: req.body.sundays === "on"
     }
     var timeFrom = req.body.timeFrom;
+    console.log(timeFrom);
     var timeTo = req.body.timeTo;
 
     // Check image upload 
@@ -193,8 +210,6 @@ router.post('/addOffer', upload.single('offerImage'), function(req, res, next){
         }
     };
 
-    res.redirect('/users/admin');
-
         // Create a new user in the database
         DBController.createOffer(newOffer, function(err, offer){
             if(err) throw err;
@@ -205,24 +220,12 @@ router.post('/addOffer', upload.single('offerImage'), function(req, res, next){
     res.redirect('/users/admin');
 });
 
-function ensureLoggedIn(req, res, next){
-    if(req.session.user){
-        next();
-    } else {
-        res.redirect('/users/login');
-    }
-};
-
+// GET to logout
+// Destroys user session
 router.get('/logout', function(req, res, next){
     req.session.destroy(function(){
         res.redirect('/');
     });
 });
-
-
-
-
-
-
 
 module.exports = router;
