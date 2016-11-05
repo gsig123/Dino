@@ -3,7 +3,7 @@ var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: './public/img/restaurantImg' });
 var DBController = require('../lib/DBController');
-var users = require('../lib/users');
+
 
 // GET Login view. calls middleware "redirectIfLoggedIn" to check if 
 // user is already logged in and then redirects. 
@@ -28,7 +28,7 @@ function redirectIfLoggedIn(req, res, next){
 router.post('/login', function(req, res, next){
     var email = req.body.email;
     var password = req.body.password;
-    users.auth(email, password, function(err, user){
+    DBController.auth(email, password, function(err, user){
         if(user){
             req.session.regenerate(function (){
                 req.session.user = user;

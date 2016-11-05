@@ -5,9 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var passport = require('passport');
 var expressValidator = require('express-validator');
-var LocalStrategy = require('passport-local').Strategy;
 var multer = require('multer');
 var flash = require('connect-flash');
 var bcrypt = require('bcryptjs');
@@ -33,10 +31,6 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-
-// Passport Setup
-app.use(passport.initialize());
-app.use(passport.session());
 
 // View Engine Setup
 app.set('views', path.join(__dirname, 'views'));
