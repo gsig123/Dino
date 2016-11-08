@@ -13,4 +13,9 @@ router.get('/profile', function(req, res, next){
 	res.render('profile');
 });
 
+router.get('/addType/:id', function(req,res,nest){
+  var inntak = req.id;
+  res.render('index',{ title:inntak });
+});
+
 module.exports = router;
