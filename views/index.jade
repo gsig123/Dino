@@ -10,22 +10,29 @@ block content
 					p(class="text-center") Welcome to #{title}
 					br
 					br
-					form
+					form(method="post", action="/search")
 						div(class="form-group has-feedback")
 							input(type="text" class="form-control" id="searchInput" placeholder="Search")
 							i(class="glyphicon glyphicon-search form-control-feedback")
 						div(class="form-group")
 							div(class="btn-group type-group" role="group" aria-label="...")
-								a(class="btn btn-default" href="/addType/fastFood") Fast Food
-								a(class="btn btn-default" href="/addType") Asian
-								a(class="btn btn-default" href="/addType") Fish
-								a(class="btn btn-default" href="/addType") Steak
-								a(class="btn btn-default" href="/addType") Italian
-								a(class="btn btn-default" href="/addType") Vegan
-								a(class="btn btn-default" href="/addType") Kebab
+								label Fast Food 
+									input(type="checkbox" value="FastFood" checked="true" name="parameterGroup")  
+								br
+								label Asian
+									input(type="checkbox" value="Asian" name="parameterGroup")
+								br
+								label Fish
+									input(type="checkbox" value="Fish" name="parameterGroup")
+								br
+								label Steak
+									input(type="checkbox" value="Steak" name="parameterGroup")
+								br
+								label Vegan
+									input(type="checkbox" value="Vegan" name="parameterGroup")
 						div(class="form-group")
 							b(id="price-slider-low") 500 kr
-							input(input id="price-slider" type="text" class="span2" value="" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value="[500,10000]" data-slider-tooltip="hide")
+							input(input id="price-slider" type="text" class="span2" value="" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value="[500,10000]" data-slider-tooltip="hide" name="priceRange")
 							b(id="price-slider-high") 10000 kr
 						div(class="form-group")
 							button(type="submit" class="btn btn-primary pull-right") Search
