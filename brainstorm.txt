@@ -1,0 +1,18 @@
+
+Types: 
+
+fastfood 
+finedining
+bistro
+vegan
+vegeterian
+seafood
+italian 
+mexican
+asian
+kebab
+steak
+
+priceRange:
+
+0 => 10.000 => inf

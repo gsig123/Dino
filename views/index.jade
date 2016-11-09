@@ -31,9 +31,9 @@ block content
 								label Vegan
 									input(type="checkbox" value="Vegan" name="parameterGroup" checked=(checked.Vegan ? "checked" : undefined))
 						div(class="form-group")
-							b(id="price-slider-low") 500 kr
-							input(input id="price-slider" type="text" class="span2" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value=(priceRangeArr) value=(priceRange) data-slider-tooltip="hide" name="priceRange" )
-							b(id="price-slider-high") 10000 kr
+							b(id="price-slider-low") #{priceRangeArr[0]} kr
+							input(input id="price-slider" type="text" class="span2" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value=(priceRange) value=(priceRange) data-slider-tooltip="hide" name="priceRange" )
+							b(id="price-slider-high") #{priceRangeArr[1]} kr
 						div(class="form-group")
 							button(type="submit" class="btn btn-primary pull-right") Search
 		div(class="row")

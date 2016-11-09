@@ -7,6 +7,9 @@ $(document).ready(function(){
 	// Add Bootstrap price slider to index
 	priceSlider.slider({});
 
+	var low = priceSlider.data('slider').value[0];
+	var high = priceSlider.data('slider').value[1];
+
 	// Catch price slide event
 	priceSlider.on('slide', function(){
 		var low = priceSlider.data('slider').value[0];
