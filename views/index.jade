@@ -12,27 +12,27 @@ block content
 					br
 					form(method="post", action="/search")
 						div(class="form-group has-feedback")
-							input(type="text" class="form-control" id="searchInput" placeholder="Search")
+							input(type="text" class="form-control" id="searchInput" placeholder="Search" name="searchBar")
 							i(class="glyphicon glyphicon-search form-control-feedback")
 						div(class="form-group")
 							div(class="btn-group type-group" role="group" aria-label="...")
 								label Fast Food 
-									input(type="checkbox" value="FastFood" checked="true" name="parameterGroup")  
+									input(type="checkbox" value="FastFood" name="parameterGroup" checked=(checked.FastFood ? "checked" : undefined))  
 								br
 								label Asian
-									input(type="checkbox" value="Asian" name="parameterGroup")
+									input(type="checkbox" value="Asian" name="parameterGroup" checked=(checked.Asian ? "checked" : undefined))
 								br
 								label Fish
-									input(type="checkbox" value="Fish" name="parameterGroup")
+									input(type="checkbox" value="Fish" name="parameterGroup" checked=(checked.Fish ? "checked" : undefined))
 								br
 								label Steak
-									input(type="checkbox" value="Steak" name="parameterGroup")
+									input(type="checkbox" value="Steak" name="parameterGroup" checked=(checked.Steak ? "checked" : undefined))
 								br
 								label Vegan
-									input(type="checkbox" value="Vegan" name="parameterGroup")
+									input(type="checkbox" value="Vegan" name="parameterGroup" checked=(checked.Vegan ? "checked" : undefined))
 						div(class="form-group")
 							b(id="price-slider-low") 500 kr
-							input(input id="price-slider" type="text" class="span2" value="" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value="[500,10000]" data-slider-tooltip="hide" name="priceRange")
+							input(input id="price-slider" type="text" class="span2" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value=(priceRangeArr) value=(priceRange) data-slider-tooltip="hide" name="priceRange" )
 							b(id="price-slider-high") 10000 kr
 						div(class="form-group")
 							button(type="submit" class="btn btn-primary pull-right") Search
@@ -70,7 +70,7 @@ block content
 			div(class="modalContainer modal fade offer-modal-1" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
 				div(class="modal-dialog modal-lg" role="document")
 					div(class="modal-content")
-						h2 FINEST FISH 1
+						h2 Finest Fish
 						img(src="img/fclogo.png")
 						p straight from the sea, via our old friend the FISHERMAN – Please consult your waiter
 						h3 5.400 kr

@@ -10,7 +10,8 @@ $(document).ready(function(){
 	// Catch price slide event
 	priceSlider.on('slide', function(){
 		var low = priceSlider.data('slider').value[0];
-		var high = priceSlider.data('slider').value[1]
+		var high = priceSlider.data('slider').value[1];
+
 		// Change text
 		priceLowText.html(low + " kr");
 		priceHighText.html(high + " kr");
