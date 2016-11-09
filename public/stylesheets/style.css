@@ -4,6 +4,12 @@ body {
   padding-top: 100px;
 }
 
+.priceRange {
+	visibility: hidden;
+	min-width: 100px;
+	max-width: 100px;
+}
+
 .navbar-custom{
 	background: #f5f5f5;
 }
@@ -71,19 +77,6 @@ b {
 	margin-right: 15px;
 }
 
-/*.form-horizontal .form-group button {
-	margin-left: 5px;
-}*/
-
-/*[class*="col-"] {
-  padding-right: 15px;
-  padding-left: 15px;
+.checkbox {
+	bord
 }
-
-[class*="col-"]:first-child {
-  padding-left: 0px;
-}
-
-[class*="col-"]:last-child {
-  padding-right: 0px;
-}*/

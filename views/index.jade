@@ -15,25 +15,43 @@ block content
 							input(type="text" class="form-control" id="searchInput" placeholder="Search" name="searchBar")
 							i(class="glyphicon glyphicon-search form-control-feedback")
 						div(class="form-group")
-							div(class="btn-group type-group" role="group" aria-label="...")
+							div(class="btn-group" role="group" aria-label="...")
 								label Fast Food 
-									input(type="checkbox" value="FastFood" name="parameterGroup" checked=(checked.FastFood ? "checked" : undefined))  
+									input(class="checkbox btn btn-default" type="checkbox" value="FastFood" name="types" checked=(checkedTypes.FastFood ? "checked" : undefined))  
 								br
-								label Asian
-									input(type="checkbox" value="Asian" name="parameterGroup" checked=(checked.Asian ? "checked" : undefined))
+								label Fine Dining
+									input(type="checkbox" value="FineDining" name="types" checked=(checkedTypes.FineDining ? "checked" : undefined))
 								br
-								label Fish
-									input(type="checkbox" value="Fish" name="parameterGroup" checked=(checked.Fish ? "checked" : undefined))
-								br
-								label Steak
-									input(type="checkbox" value="Steak" name="parameterGroup" checked=(checked.Steak ? "checked" : undefined))
+								label Bistro
+									input(type="checkbox" value="Bistro" name="types" checked=(checkedTypes.Bistro ? "checked" : undefined))
 								br
 								label Vegan
-									input(type="checkbox" value="Vegan" name="parameterGroup" checked=(checked.Vegan ? "checked" : undefined))
+									input(type="checkbox" value="Vegan" name="types" checked=(checkedTypes.Vegan ? "checked" : undefined))
+								br
+								label Vegeterian
+									input(type="checkbox" value="Vegeterian" name="types" checked=(checkedTypes.Vegeterian ? "checked" : undefined))
+								br
+								label Seafood
+									input(type="checkbox" value="Seafood" name="types" checked=(checkedTypes.Seafood ? "checked" : undefined))  
+								br
+								label Italian
+									input(type="checkbox" value="Italian" name="types" checked=(checkedTypes.Italian ? "checked" : undefined))
+								br
+								label Mexican
+									input(type="checkbox" value="Mexican" name="types" checked=(checkedTypes.Mexican ? "checked" : undefined))
+								br
+								label Asian
+									input(type="checkbox" value="Asian" name="types" checked=(checkedTypes.Asian ? "checked" : undefined))
+								br
+								label Kebab
+									input(type="checkbox" value="Kebab" name="types" checked=(checkedTypes.Kebab ? "checked" : undefined))
+								br
+								label Steak
+									input(type="checkbox" value="Steak" name="types" checked=(checkedTypes.Steak ? "checked" : undefined))
 						div(class="form-group")
-							b(id="price-slider-low") #{priceRangeArr[0]} kr
-							input(input id="price-slider" type="text" class="span2" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value=(priceRange) value=(priceRange) data-slider-tooltip="hide" name="priceRange" )
-							b(id="price-slider-high") #{priceRangeArr[1]} kr
+							b(id="price-slider-low") #{priceRange[0]} kr
+							input(class="priceRange" input id="price-slider" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value=(priceRange) value=(priceRange) data-slider-tooltip="hide" name="priceRange" )
+							b(id="price-slider-high") #{priceRange[1]} kr
 						div(class="form-group")
 							button(type="submit" class="btn btn-primary pull-right") Search
 		div(class="row")

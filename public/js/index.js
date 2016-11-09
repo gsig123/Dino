@@ -10,6 +10,9 @@ $(document).ready(function(){
 	var low = priceSlider.data('slider').value[0];
 	var high = priceSlider.data('slider').value[1];
 
+	// We hide the slider so it won't flash a text input. Unhide when ready.
+	priceSlider.css('visibility', 'visible');
+
 	// Catch price slide event
 	priceSlider.on('slide', function(){
 		var low = priceSlider.data('slider').value[0];
