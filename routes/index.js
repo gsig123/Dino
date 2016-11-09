@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var SearchSession = require('../lib/SearchSession');
 
 // GET index
 // Render with title
@@ -15,23 +16,14 @@ router.get('/profile', function(req, res, next){
 	res.render('profile');
 });
 
-router.get('/addType/:id', function(req,res,nest){
-  var inntak = req.id;
-  res.render('index',{ title:inntak });
-});
-
 router.post('/search', function(req, res, next){
 	var parameterGroup = req.body.parameterGroup;
-	var priceRange = req.body.priceRange;
+	var priceRange = req.body.priceRange.value;
 
-	req.session.parameters = {
-		parameterGroup: parameterGroup, 
-		priceRange: priceRange
-	}
+	SearchSession.updateSession("", parameterGroup, priceRange, req)
 
-	res.redirect('/');
+	console.log(req.session);
+	res.render('index', {title: 'Dino'});
 });
-
-
 
 module.exports = router;
