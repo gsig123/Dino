@@ -38,7 +38,9 @@ Back End
 --------
 
 This project uses **Node.js** in the backend. 
-This app is build with **Express.js**.
+
+This app is built with **Express.js**.
+
 The view is written in **Pug**.
 
 Front End
