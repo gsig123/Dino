@@ -15,8 +15,14 @@ router.get('/', function(req, res, next) {
             var types = params.types;
             var priceRange = params.priceRange;
             var searchBar = params.searchBar;
-            // render with params
-            res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar });
+
+            // Get offers from database
+            SearchController.getOfferList(types, priceRange, searchBar, function(err, offerlist){
+                if(err) throw err;
+                console.log(offerlist);
+                // render with params
+                res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, offerlist: offerlist });
+            });
         });
     } else {
         // Else render with params from session
@@ -25,7 +31,13 @@ router.get('/', function(req, res, next) {
         var priceRange = params.priceRange;
         var searchBar = params.searchBar;
 
-        res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar });
+        // Get offers from database
+        SearchController.getOfferList(types, priceRange, searchBar, function(err, offerlist){
+            if(err) throw err;
+            console.log("HERE : " + offerlist);
+            // render with params
+            res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, offerlist: offerlist });
+        });
     }
 
 });
@@ -42,11 +54,11 @@ router.post('/search', function(req, res, next) {
 
 
 router.get('/testStuff', function(req, res, next) {
-    SearchController.makeOfferList(function(err, offers) {
-        if (err) console.log(err);
-        console.log(offers);
-        res.render('index', { offers: offers });
-    });
+    // SearchController.makeOfferList(function(err, offers) {
+    //     if (err) console.log(err);
+    //     console.log(offers);
+    //     res.render('index', { offers: offers });
+    // });
 });
 
 // A post request => Called from frontend to add type to session

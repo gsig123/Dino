@@ -9,23 +9,24 @@ block content
 					br
 					p(class="text-center") Welcome to #{title}
 					br
-					br
 					form(method="post", action="/search")
 						div(class="form-group has-feedback")
 							input(type="text" class="form-control" id="searchBar" placeholder="Search" name="searchBar" value="#{searchBar}")
 							i(class="glyphicon glyphicon-search form-control-feedback")
-						div(class="form-group")
+						div(class="form-group text-center")
+							br
 							div(class="btn-group" role="group" aria-label="...")
 								if types
 									each type in types
 										input(class="btn btn-default types #{type.active}" type="button" value="#{type.name}")
-						div(class="form-group")
+						div(class="form-group text-center")
 							if priceRange
+								br
 								b(id="price-slider-low") #{priceRange.low} kr
 								input(class="priceRange" input id="price-slider" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value="[#{priceRange.low}, #{priceRange.high}]" value="[#{priceRange.low}, #{priceRange.high}]" data-slider-tooltip="hide" name="priceRange" )
 								b(id="price-slider-high") #{priceRange.high} kr
-						div(class="form-group")
-							button(type="submit" class="btn btn-primary pull-right") Search
+						div(class="form-group text-center")
+							button(type="submit" class="btn btn-info") Search
 		if offers 
 			each offer in offers
 				div(class="row")
