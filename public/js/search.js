@@ -10,6 +10,7 @@ $(document).ready(function() {
     var priceSlider = $('#price-slider');
     var priceLowText = $('#price-slider-low');
     var priceHighText = $('#price-slider-high');
+    var searchBar = $('#searchBar');
 
     // ==============================
 
@@ -53,6 +54,13 @@ $(document).ready(function() {
         updatePriceRangeOnServer(priceRangeString);
     });
 
+    // Handler for input in search bar.
+    searchBar.keyup(function(){
+    	var searchString = this.value;
+    	
+    	updateSearchBarOnServer(searchString);
+    });
+
     // ==============================
 
 });
@@ -62,17 +70,7 @@ var sendTypeToServer = function(type) {
     var url = '/addType' + type;
     $.ajax({
         type: 'POST',
-        data: JSON.stringify(type),
-        url: url,
-        success: function(data) {
-            console.log('success');
-            console.log(JSON.stringify(data));
-        },
-        error: {
-            function(err) {
-                console.log(err);
-            }
-        }
+        url: url
     });
 }
 
@@ -81,17 +79,7 @@ var removeTypeFromServer = function(type) {
     var url = '/removeType' + type;
     $.ajax({
         type: 'POST',
-        data: JSON.stringify(type),
-        url: url,
-        success: function(data) {
-            console.log('success');
-            console.log(JSON.stringify(data));
-        },
-        error: {
-            function(err) {
-                console.log(err);
-            }
-        }
+        url: url
     });
 }
 
@@ -100,16 +88,16 @@ var updatePriceRangeOnServer = function(priceRangeString){
 	var url = '/updatePriceRange' + priceRangeString;
 	$.ajax({
 		type: 'POST',
-		data: JSON.stringify(priceRangeString),
-		url: url, 
-		success: function(data){
-			console.log('success');
-			console.log(JSON.stringify(data));
-		}, 
-		error: {
-			function(err){
-				console.log(err);
-			}
-		}
+		url: url
+	});
+}
+
+// Update price range by POST request on server => Stored in session
+var updateSearchBarOnServer = function(searchString){
+	console.log(searchString);
+	var url = '/updateSearchBar' + searchString;
+	$.ajax({
+		type: 'POST',
+		url: url
 	});
 }

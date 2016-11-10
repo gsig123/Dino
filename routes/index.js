@@ -84,6 +84,18 @@ router.post('/updatePriceRange:values', function(req, res, next){
     });
 });
 
+// A post request => Called from frontend to update searchBar
+router.post('/updateSearchBar:searchString', function(req, res, next){
+
+    // Get values from url as string
+    var searchBar = req.params.searchString;
+
+    // Send to session
+    SearchParams.updateSearchBar(searchBar, req, function(){
+        res.sendStatus(200);
+    });
+});
+
 
 
 module.exports = router;
