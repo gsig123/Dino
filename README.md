@@ -16,7 +16,7 @@ This is a project for a Software Development course at the **University of Icela
 
 ## Installation
 
-Provide code examples and explanations of how to get the project.
+run **npm start** to run the app.
 
 ## Tests
 
@@ -31,19 +31,22 @@ None at the moment.
 
 ## Tech Specs
 
-#### Back End
+Back End
+--------
 
 This project uses **Node.js** in the backend. 
 This app is build with **Express.js**.
 The view is written in **Pug**.
 
-#### Front End
+Front End
+---------
 
 **JQuery** for making DOM manipulation easier. 
 
 **Bootstrap** for making everything look sexy. 
 
-#### Packages
+Packages
+--------
 
 **bcryptjs** for password hashing. 
 
@@ -57,7 +60,8 @@ The view is written in **Pug**.
 
 **express-session** for session handling. 
 
-#### Database
+Database
+--------
 
 We use **Postgres** as our database. 
 
