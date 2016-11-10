@@ -16,89 +16,62 @@ block content
 							i(class="glyphicon glyphicon-search form-control-feedback")
 						div(class="form-group")
 							div(class="btn-group" role="group" aria-label="...")
-								label Fast Food 
-									input(class="checkbox btn btn-default" type="checkbox" value="FastFood" name="types" checked=(checkedTypes.FastFood ? "checked" : undefined))  
-								br
-								label Fine Dining
-									input(type="checkbox" value="FineDining" name="types" checked=(checkedTypes.FineDining ? "checked" : undefined))
-								br
-								label Bistro
-									input(type="checkbox" value="Bistro" name="types" checked=(checkedTypes.Bistro ? "checked" : undefined))
-								br
-								label Vegan
-									input(type="checkbox" value="Vegan" name="types" checked=(checkedTypes.Vegan ? "checked" : undefined))
-								br
-								label Vegeterian
-									input(type="checkbox" value="Vegeterian" name="types" checked=(checkedTypes.Vegeterian ? "checked" : undefined))
-								br
-								label Seafood
-									input(type="checkbox" value="Seafood" name="types" checked=(checkedTypes.Seafood ? "checked" : undefined))  
-								br
-								label Italian
-									input(type="checkbox" value="Italian" name="types" checked=(checkedTypes.Italian ? "checked" : undefined))
-								br
-								label Mexican
-									input(type="checkbox" value="Mexican" name="types" checked=(checkedTypes.Mexican ? "checked" : undefined))
-								br
-								label Asian
-									input(type="checkbox" value="Asian" name="types" checked=(checkedTypes.Asian ? "checked" : undefined))
-								br
-								label Kebab
-									input(type="checkbox" value="Kebab" name="types" checked=(checkedTypes.Kebab ? "checked" : undefined))
-								br
-								label Steak
-									input(type="checkbox" value="Steak" name="types" checked=(checkedTypes.Steak ? "checked" : undefined))
+								//- label Fast Food 
+								//- 	input(class="checkbox btn btn-default" type="checkbox" value="FastFood" name="types" checked=(checkedTypes.FastFood ? "checked" : undefined))  
+								//- br
+								//- label Fine Dining
+								//- 	input(type="checkbox" value="FineDining" name="types" checked=(checkedTypes.FineDining ? "checked" : undefined))
+								//- br
+								//- label Bistro
+								//- 	input(type="checkbox" value="Bistro" name="types" checked=(checkedTypes.Bistro ? "checked" : undefined))
+								//- br
+								//- label Vegan
+								//- 	input(type="checkbox" value="Vegan" name="types" checked=(checkedTypes.Vegan ? "checked" : undefined))
+								//- br
+								//- label Vegeterian
+								//- 	input(type="checkbox" value="Vegeterian" name="types" checked=(checkedTypes.Vegeterian ? "checked" : undefined))
+								//- br
+								//- label Seafood
+								//- 	input(type="checkbox" value="Seafood" name="types" checked=(checkedTypes.Seafood ? "checked" : undefined))  
+								//- br
+								//- label Italian
+								//- 	input(type="checkbox" value="Italian" name="types" checked=(checkedTypes.Italian ? "checked" : undefined))
+								//- br
+								//- label Mexican
+								//- 	input(type="checkbox" value="Mexican" name="types" checked=(checkedTypes.Mexican ? "checked" : undefined))
+								//- br
+								//- label Asian
+								//- 	input(type="checkbox" value="Asian" name="types" checked=(checkedTypes.Asian ? "checked" : undefined))
+								//- br
+								//- label Kebab
+								//- 	input(type="checkbox" value="Kebab" name="types" checked=(checkedTypes.Kebab ? "checked" : undefined))
+								//- br
+								//- label Steak
+								//- 	input(type="checkbox" value="Steak" name="types" checked=(checkedTypes.Steak ? "checked" : undefined))
 						div(class="form-group")
-							b(id="price-slider-low") #{priceRange[0]} kr
-							input(class="priceRange" input id="price-slider" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value=(priceRange) value=(priceRange) data-slider-tooltip="hide" name="priceRange" )
-							b(id="price-slider-high") #{priceRange[1]} kr
+							//- b(id="price-slider-low") #{priceRange[0]} kr
+							//- input(class="priceRange" input id="price-slider" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value=(priceRange) value=(priceRange) data-slider-tooltip="hide" name="priceRange" )
+							//- b(id="price-slider-high") #{priceRange[1]} kr
 						div(class="form-group")
 							button(type="submit" class="btn btn-primary pull-right") Search
-		div(class="row")
-			div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
-				a(data-toggle="modal" data-target=".offer-modal-1")
-					div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
-						h4(class="restaurantName") Fish Company
-						img(src="img/fclogo.png")
-						h4 Finest Fish
-						h4(class="price") 5.400 kr
-			div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
-				a(data-toggle="modal" data-target=".offer-modal-2")
-					div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
-						h4(class="restaurantName") Fish Company
-						img(src="img/fclogo.png")
-						h4 Finest Fish
-						h4(class="price") 5.400 kr
-			div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
-				a(data-toggle="modal" data-target=".offer-modal")
-					div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
-						h4(class="restaurantName") Fish Company
-						img(src="img/fclogo.png")
-						h4 Finest Fish
-						h4(class="price") 5.400 kr
-			div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
-				a(data-toggle="modal" data-target=".offer-modal")
-					div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
-						h4(class="restaurantName") Fish Company
-						img(src="img/fclogo.png")
-						h4 Finest Fish
-						h4(class="price") 5.400 kr
+		each offer in offers
+			div(class="row")
+				div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
+					a(data-toggle="modal" data-target=".offer-modal-#{offer.id}")
+						div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
+							h4(class="restaurantName") #{offer.restId}
+							img(src="img/#{offer.photo}")
+							h4 #{offer.name}
+							h4(class="price") #{offer.price}
 
-			//- Offer Modal View
-			div(class="modalContainer modal fade offer-modal-1" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
-				div(class="modal-dialog modal-lg" role="document")
-					div(class="modal-content")
-						h2 Finest Fish
-						img(src="img/fclogo.png")
-						p straight from the sea, via our old friend the FISHERMAN – Please consult your waiter
-						h3 5.400 kr
-						br
 
-			div(class="modalContainer modal fade offer-modal-2" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
-				div(class="modal-dialog modal-lg" role="document")
-					div(class="modal-content")
-						h2 FINEST FISH 1
-						img(src="img/fclogo.png")
-						p straight from the sea, via our old friend the FISHERMAN – Please consult your waiter
-						h3 5.400 kr
-						br
+				//- Offer Modal View
+				div(class="modalContainer modal fade offer-modal-#{offer.id}" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
+					div(class="modal-dialog modal-lg" role="document")
+						div(class="modal-content")
+							h2 #{offer.name}
+							img(src="img/#{offer.photo}")
+							p #{offer.description}
+							h3 #{offer.price}
+							br
+

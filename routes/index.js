@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var SearchParams = require('../lib/SearchParams');
+var SearchController = require('../lib/SearchController');
 
 // GET index
 // Render with title
@@ -77,6 +78,15 @@ router.post('/search', function(req, res, next) {
     SearchParams.updateParams(searchBar, checkedTypes, priceRange, req, function(err){
     	if(err) console.log(err);
     	res.redirect('/');
+    });
+});
+
+
+router.get('/testStuff', function(req, res, next){
+    SearchController.makeOfferList(function(err, offers){
+        if(err) console.log(err);
+        console.log(offers);
+        res.render('index', {offers: offers});
     });
 });
 
