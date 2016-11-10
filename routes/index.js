@@ -14,16 +14,18 @@ router.get('/', function(req, res, next) {
             // Get params from session
             var types = params.types;
             var priceRange = params.priceRange;
+            var searchBar = params.searchBar;
             // render with params
-            res.render('index', { title: 'Dino', types: types, priceRange: priceRange });
+            res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar });
         });
     } else {
         // Else render with params from session
         var params = req.session.params;
         var types = params.types;
         var priceRange = params.priceRange;
+        var searchBar = params.searchBar;
 
-        res.render('index', { title: 'Dino', types: types, priceRange: priceRange });
+        res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar });
     }
 
 });
