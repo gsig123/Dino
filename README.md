@@ -16,7 +16,7 @@ This is a project for a Software Development course at the **University of Icela
 
 ## Installation
 
-run **npm start** to run the app.
+Run **npm start** to start the app.
 
 ## Tests
 
