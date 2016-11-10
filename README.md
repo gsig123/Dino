@@ -25,8 +25,11 @@ None at the moment.
 ## Contributors
 
 [Guðbjartur Sigurbergsson](gis14@hi.is)
+
 [Gunnar Thor Örnólfsson](gto3@hi.is)
+
 [Jiahao Zhang](jiz3@hi.is)
+
 [Vífill Sverrisson](vis32@hi.is)
 
 ## Tech Specs
