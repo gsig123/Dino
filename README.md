@@ -12,7 +12,7 @@
 
 ## Motivation
 
-This is a project for a Software Development course at the **University of Iceland**
+This is a project for a Software Development course at the **University of Iceland**.
 
 ## Installation
 
@@ -39,21 +39,28 @@ The view is written in **Pug**.
 
 #### Front End
 
-** JQuery **
-** Bootstrap **
+**JQuery** for making DOM manipulation easier. 
+
+**Bootstrap** for making everything look sexy. 
 
 #### Packages
 
-** bcryptjs ** for password hashing. 
-** express-validator ** for validating forms. 
-** express-messages ** for flash messages. 
-** pg ** for database connections. 
-** multer ** for file upload. 
-** express-session ** for session handling. 
+**bcryptjs** for password hashing. 
+
+**express-validator** for validating forms. 
+
+**express-messages** for flash messages. 
+
+**pg** for database connections. 
+
+**multer** for file upload. 
+
+**express-session** for session handling. 
 
 #### Database
 
-We use ** Postgres ** as our database. 
-It is hosted by ** Heroku ** making it accessible anywhere.
+We use **Postgres** as our database. 
+
+It is hosted by **Heroku** making it accessible anywhere.
 
 
