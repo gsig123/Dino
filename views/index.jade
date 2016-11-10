@@ -16,62 +16,36 @@ block content
 							i(class="glyphicon glyphicon-search form-control-feedback")
 						div(class="form-group")
 							div(class="btn-group" role="group" aria-label="...")
-								//- label Fast Food 
-								//- 	input(class="checkbox btn btn-default" type="checkbox" value="FastFood" name="types" checked=(checkedTypes.FastFood ? "checked" : undefined))  
-								//- br
-								//- label Fine Dining
-								//- 	input(type="checkbox" value="FineDining" name="types" checked=(checkedTypes.FineDining ? "checked" : undefined))
-								//- br
-								//- label Bistro
-								//- 	input(type="checkbox" value="Bistro" name="types" checked=(checkedTypes.Bistro ? "checked" : undefined))
-								//- br
-								//- label Vegan
-								//- 	input(type="checkbox" value="Vegan" name="types" checked=(checkedTypes.Vegan ? "checked" : undefined))
-								//- br
-								//- label Vegeterian
-								//- 	input(type="checkbox" value="Vegeterian" name="types" checked=(checkedTypes.Vegeterian ? "checked" : undefined))
-								//- br
-								//- label Seafood
-								//- 	input(type="checkbox" value="Seafood" name="types" checked=(checkedTypes.Seafood ? "checked" : undefined))  
-								//- br
-								//- label Italian
-								//- 	input(type="checkbox" value="Italian" name="types" checked=(checkedTypes.Italian ? "checked" : undefined))
-								//- br
-								//- label Mexican
-								//- 	input(type="checkbox" value="Mexican" name="types" checked=(checkedTypes.Mexican ? "checked" : undefined))
-								//- br
-								//- label Asian
-								//- 	input(type="checkbox" value="Asian" name="types" checked=(checkedTypes.Asian ? "checked" : undefined))
-								//- br
-								//- label Kebab
-								//- 	input(type="checkbox" value="Kebab" name="types" checked=(checkedTypes.Kebab ? "checked" : undefined))
-								//- br
-								//- label Steak
-								//- 	input(type="checkbox" value="Steak" name="types" checked=(checkedTypes.Steak ? "checked" : undefined))
+								if types
+									each type in types
+										input(class="btn btn-default types #{type.active}" type="button" value="#{type.name}")
 						div(class="form-group")
-							//- b(id="price-slider-low") #{priceRange[0]} kr
-							//- input(class="priceRange" input id="price-slider" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value=(priceRange) value=(priceRange) data-slider-tooltip="hide" name="priceRange" )
-							//- b(id="price-slider-high") #{priceRange[1]} kr
+							if priceRange
+								b(id="price-slider-low") #{priceRange.low} kr
+								input(class="priceRange" input id="price-slider" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value="[#{priceRange.low}, #{priceRange.high}]" value="[#{priceRange.low}, #{priceRange.high}]" data-slider-tooltip="hide" name="priceRange" )
+								b(id="price-slider-high") #{priceRange.high} kr
 						div(class="form-group")
 							button(type="submit" class="btn btn-primary pull-right") Search
-		each offer in offers
-			div(class="row")
-				div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
-					a(data-toggle="modal" data-target=".offer-modal-#{offer.id}")
-						div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
-							h4(class="restaurantName") #{offer.restId}
-							img(src="img/#{offer.photo}")
-							h4 #{offer.name}
-							h4(class="price") #{offer.price}
+		if offers 
+			each offer in offers
+				div(class="row")
+					div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
+						a(data-toggle="modal" data-target=".offer-modal-#{offer.id}")
+							div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
+								h4(class="restaurantName") #{offer.restId}
+								img(src="img/#{offer.photo}")
+								h4 #{offer.name}
+								h4(class="price") #{offer.price}
 
 
-				//- Offer Modal View
-				div(class="modalContainer modal fade offer-modal-#{offer.id}" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
-					div(class="modal-dialog modal-lg" role="document")
-						div(class="modal-content")
-							h2 #{offer.name}
-							img(src="img/#{offer.photo}")
-							p #{offer.description}
-							h3 #{offer.price}
-							br
+					//- Offer Modal View
+					div(class="modalContainer modal fade offer-modal-#{offer.id}" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
+						div(class="modal-dialog modal-lg" role="document")
+							div(class="modal-content")
+								h2 #{offer.name}
+								img(src="img/#{offer.photo}")
+								p #{offer.description}
+								h3 #{offer.price}
+								br
+
 

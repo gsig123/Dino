@@ -8,39 +8,24 @@ var SearchController = require('../lib/SearchController');
 router.get('/', function(req, res, next) {
 
     // If no params in session => initialize
-    if (!req.session.parameters) {
-        SearchParams.init(req, function(err) {
-            // if error console log it
-            if (err) return console.log(err);
+    if (!req.session.params) {
+        SearchParams.init(req, function(params) {
 
             // Get params from session
-            var checkedTypes = req.session.parameters.checkedTypes;
-            var priceRange = req.session.parameters.priceRange;
-            var searchBar = req.session.searchBar;
-
+            var types = params.types;
+            var priceRange = params.priceRange;
             // render with params
-            res.render('index', {
-                title: 'Dino',
-                checkedTypes: checkedTypes,
-                priceRange: priceRange,
-                searchBar: searchBar
-            });
+            res.render('index', { title: 'Dino', types: types, priceRange: priceRange });
         });
-
     } else {
-        // Get params from session
-        var checkedTypes = req.session.parameters.checkedTypes;
-        var priceRange = req.session.parameters.priceRange;
-        var searchBar = req.session.searchBar;
+        // Else render with params from session
+        var params = req.session.params;
+        var types = params.types;
+        var priceRange = params.priceRange;
 
-        // render with params
-        res.render('index', {
-            title: 'Dino',
-            checkedTypes: checkedTypes,
-            priceRange: priceRange,
-            searchBar: searchBar
-        });
+        res.render('index', { title: 'Dino', types: types, priceRange: priceRange });
     }
+
 });
 
 // GET profile
@@ -50,44 +35,55 @@ router.get('/profile', function(req, res, next) {
 });
 
 router.post('/search', function(req, res, next) {
-
-    // Get values from view
-    var types = req.body.types;
-    var priceRange = req.body.priceRange;
-    var searchBar = req.body.searchBar;
-
-    // SetUp on object that holds checked boxes
-    var checkedTypes = {};
-
-    // Hack if types is empty - Else we get 'split is not a function'
-    types = types + '';
-
-    // String to array
-    types = types.split(',');
-    for (i = 0; i < types.length; i++) {
-        var item = types[i];
-        checkedTypes[item] = "checked";
-    }
-
-    // Change pricerange from string to array of ints
-    priceRange = priceRange.split(',').map(function(item) {
-        return parseInt(item);
-    });
-
-    // Add to session the parameters 
-    SearchParams.updateParams(searchBar, checkedTypes, priceRange, req, function(err){
-    	if(err) console.log(err);
-    	res.redirect('/');
-    });
+    res.redirect('/');
 });
 
 
-router.get('/testStuff', function(req, res, next){
-    SearchController.makeOfferList(function(err, offers){
-        if(err) console.log(err);
+router.get('/testStuff', function(req, res, next) {
+    SearchController.makeOfferList(function(err, offers) {
+        if (err) console.log(err);
         console.log(offers);
-        res.render('index', {offers: offers});
+        res.render('index', { offers: offers });
     });
 });
+
+// A post request => Called from frontend to add type to session
+router.post('/addType:name', function(req, res, next) {
+    // Get type to add from url
+    var type = req.params;
+
+    // Add type active to session
+    SearchParams.addType(type, req, function() {
+        res.sendStatus(200);
+    });
+});
+
+// A post request => Called from frontend to remove type from session
+router.post('/removeType:name', function(req, res, next) {
+    // Get type to add from url
+    var type = req.params;
+
+    // Add type active to session
+    SearchParams.removeType(type, req, function() {
+        res.sendStatus(200);
+    });
+});
+
+// A post request => Called from frontend to update priceRange
+router.post('/updatePriceRange:values', function(req, res, next){
+
+    // Get values from url as string
+    var string = req.params.values;
+
+    // Turn it into an array
+    var values = JSON.parse("[" + string + "]");
+
+    // Send to session 
+    SearchParams.updatePriceRange(values[0], values[1], req, function(){
+        res.sendStatus(200);
+    });
+});
+
+
 
 module.exports = router;
