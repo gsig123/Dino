@@ -146,7 +146,7 @@ function ensureLoggedIn(req, res, next){
 // POST on admin page to add a new offer. 
 // Redirects to admin page
 router.post('/addOffer', upload.single('offerImage'), function(req, res, next){
-        // Get values from form
+    // Get values from form
     var offerName = req.body.offerName;
     var price = req.body.price;
     var type = req.body.type;
@@ -197,6 +197,7 @@ router.post('/addOffer', upload.single('offerImage'), function(req, res, next){
         // include restaurantId
         var newOffer = {
             restId: req.session.user.id,
+            restName: req.session.user.name,
             offerName: offerName, 
             price: price, 
             type: type,
