@@ -9,39 +9,31 @@ var DBController = require('../lib/DBController');
 
 // GET index
 // Render with title
-router.get('/', function(req, res, next) {
+router.get('/', initIfNeeded, function(req, res, next) {
 
-    // If no params in session => initialize
+    // Get params from session
+    var params = req.session.params;
+    var types = params.types;
+    var priceRange = params.priceRange;
+    var searchBar = params.searchBar;
+
+    SearchController.getOfferList(params, function(err, offerlist) {
+        if (err) throw err;
+        // render with params
+        res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, offerlist: offerlist });
+    });
+});
+
+function initIfNeeded(req, res, next) {
     if (!req.session.params) {
         SearchParams.init(req, function(params) {
-
-            // Get params from session
-            var types = params.types;
-            var priceRange = params.priceRange;
-            var searchBar = params.searchBar;
-
-            //Get offers from database
-            SearchController.getOfferList(params, function(err, offerlist){
-                if(err) throw err;
-                // render with params
-                res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, offerlist: offerlist });
-            });
+            console.log(params);
+            next();
         });
     } else {
-        // Else render with params from session
-        var params = req.session.params;
-        var types = params.types;
-        var priceRange = params.priceRange;
-        var searchBar = params.searchBar;
-
-        SearchController.getOfferList(params, function(err, offerlist){
-            if(err) throw err;
-            // render with params
-            res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, offerlist: offerlist });
-        });
+        next();
     }
-
-});
+}
 
 // GET profile
 // Render profile page
@@ -55,8 +47,8 @@ router.post('/search', function(req, res, next) {
 
 
 router.get('/testStuff', function(req, res, next) {
-    SearchController.getOfferList(req.session.params, function(err, results){
-        if(err) throw err;
+    SearchController.getOfferList(req.session.params, function(err, results) {
+        if (err) throw err;
         console.log(results);
     });
 });
@@ -84,7 +76,7 @@ router.post('/removeType:name', function(req, res, next) {
 });
 
 // A post request => Called from frontend to update priceRange
-router.post('/updatePriceRange:values', function(req, res, next){
+router.post('/updatePriceRange:values', function(req, res, next) {
 
     // Get values from url as string
     var string = req.params.values;
@@ -93,19 +85,19 @@ router.post('/updatePriceRange:values', function(req, res, next){
     var values = JSON.parse("[" + string + "]");
 
     // Send to session 
-    SearchParams.updatePriceRange(values[0], values[1], req, function(){
+    SearchParams.updatePriceRange(values[0], values[1], req, function() {
         res.sendStatus(200);
     });
 });
 
 // A post request => Called from frontend to update searchBar
-router.post('/updateSearchBar:searchString', function(req, res, next){
+router.post('/updateSearchBar:searchString', function(req, res, next) {
 
     // Get values from url as string
     var searchBar = req.params.searchString;
 
     // Send to session
-    SearchParams.updateSearchBar(searchBar, req, function(){
+    SearchParams.updateSearchBar(searchBar, req, function() {
         res.sendStatus(200);
     });
 });
