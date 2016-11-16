@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
-var upload = multer({ dest: './public/img/restaurantImg' });
+var uploadRestImg = multer({ dest: './public/img/restaurantImg' });
+var uploadOfferImg = multer({dest: './public/img/offerImg'});
 var DBController = require('../lib/DBController');
 
 
@@ -51,7 +52,7 @@ router.get('/signup', function(req, res, next){
 // POST on signup view. 
 // Tries to signup a new user.
 // If errors -> Render signup page with errors. 
-router.post('/signup', upload.single('restaurantImage'), function(req, res, next){
+router.post('/signup', uploadRestImg.single('restaurantImage'), function(req, res, next){
 
 	// Get values from form
 	var restaurantName = req.body.restaurantName;
@@ -145,7 +146,7 @@ function ensureLoggedIn(req, res, next){
 
 // POST on admin page to add a new offer. 
 // Redirects to admin page
-router.post('/addOffer', upload.single('offerImage'), function(req, res, next){
+router.post('/addOffer', uploadOfferImg.single('offerImage'), function(req, res, next){
     // Get values from form
     var offerName = req.body.offerName;
     var price = req.body.price;
@@ -195,9 +196,11 @@ router.post('/addOffer', upload.single('offerImage'), function(req, res, next){
     } else {
         // Else create newOffer object from form values
         // include restaurantId
+        // 
+        console.log(req.session.user);
         var newOffer = {
             restId: req.session.user.id,
-            restName: req.session.user.name,
+            restName: req.session.user.restaurantName,
             offerName: offerName, 
             price: price, 
             type: type,

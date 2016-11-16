@@ -19,6 +19,7 @@ router.get('/', initIfNeeded, function(req, res, next) {
 
     SearchController.getOfferList(params, function(err, offerlist) {
         if (err) throw err;
+        console.log(offerlist);
         // render with params
         res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, offerlist: offerlist });
     });
