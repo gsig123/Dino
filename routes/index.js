@@ -24,6 +24,9 @@ router.get('/', initIfNeeded, function(req, res, next) {
     });
 });
 
+
+// Checks if params are in session.
+// Initializes if they are missing. 
 function initIfNeeded(req, res, next) {
     if (!req.session.params) {
         SearchParams.init(req, function(params) {
