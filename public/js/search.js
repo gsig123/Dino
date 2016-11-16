@@ -27,7 +27,6 @@ $(document).ready(function() {
         if ($(this).hasClass("active")) {
             $(this).removeClass("active");
             types.splice(types.indexOf(this.value), 1);
-            console.log(types);
             removeTypeFromServer(this.value);
         } else {
             // If button has not been activated ->
@@ -35,7 +34,6 @@ $(document).ready(function() {
             // Add instance to type array. 
             $(this).addClass("active");
             types.push(this.value);
-            console.log(types);
             sendTypeToServer(this.value);
         }
     });
@@ -70,7 +68,15 @@ var sendTypeToServer = function(type) {
     var url = '/addType' + type;
     $.ajax({
         type: 'POST',
-        url: url
+        data: "{}", 
+        dataType: "json", 
+        url: url, 
+        success: function(data){
+            console.log("Success posting new type to server!");
+        }, 
+        error: function(data){
+            console.log("Error posting new type to server!");
+        }
     });
 }
 
