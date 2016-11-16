@@ -3,6 +3,10 @@ var router = express.Router();
 var SearchParams = require('../lib/SearchParams');
 var SearchController = require('../lib/SearchController');
 
+
+// TEST
+var DBController = require('../lib/DBController');
+
 // GET index
 // Render with title
 router.get('/', function(req, res, next) {
@@ -16,10 +20,9 @@ router.get('/', function(req, res, next) {
             var priceRange = params.priceRange;
             var searchBar = params.searchBar;
 
-            // Get offers from database
-            SearchController.getOfferList(types, priceRange, searchBar, function(err, offerlist){
+            //Get offers from database
+            SearchController.getOfferList(params, function(err, offerlist){
                 if(err) throw err;
-                console.log(offerlist);
                 // render with params
                 res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, offerlist: offerlist });
             });
@@ -31,10 +34,8 @@ router.get('/', function(req, res, next) {
         var priceRange = params.priceRange;
         var searchBar = params.searchBar;
 
-        // Get offers from database
-        SearchController.getOfferList(types, priceRange, searchBar, function(err, offerlist){
+        SearchController.getOfferList(params, function(err, offerlist){
             if(err) throw err;
-            console.log("HERE : " + offerlist);
             // render with params
             res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, offerlist: offerlist });
         });
@@ -54,11 +55,10 @@ router.post('/search', function(req, res, next) {
 
 
 router.get('/testStuff', function(req, res, next) {
-    // SearchController.makeOfferList(function(err, offers) {
-    //     if (err) console.log(err);
-    //     console.log(offers);
-    //     res.render('index', { offers: offers });
-    // });
+    SearchController.getOfferList(req.session.params, function(err, results){
+        if(err) throw err;
+        console.log(results);
+    });
 });
 
 // A post request => Called from frontend to add type to session

@@ -12,6 +12,7 @@
     "consolidate": "^0.14.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
+    "dotenv": "^2.0.0",
     "express": "~4.13.4",
     "express-messages": "^1.0.1",
     "express-session": "^1.14.1",
@@ -20,6 +21,8 @@
     "morgan": "~1.7.0",
     "multer": "^1.2.0",
     "pg": "^6.1.0",
-    "serve-favicon": "~2.3.0"
+    "pg-query": "^0.11.0",
+    "serve-favicon": "~2.3.0",
+    "when": "^3.7.7"
   }
 }
