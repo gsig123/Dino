@@ -141,16 +141,16 @@ router.get('/admin', ensureLoggedIn, function(req, res, next){
   var userInfo= req.session.userInfo;
   console.log(userInfo);
 });
-//editi Button for restaurant information
+//edit Button for restaurant information
 router.post('/admin',function(req, res, next){
     res.redirect('/editRestaurantInfo');
 });
-//-------------------------------------------Jiahao
+//editPage
 router.get('editRestaurantInfo', function(req, res, next){
     var user = req.session.userInfo;
     res.render('editRestaurantInfo', {Email: user.Email, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website})
 });
-//-------------------------------------------Jiahao
+//-------------------------------------------
 
 // Middleware to make sure user is logged in.
 // If he is not logged in -> Redirect to login page.
