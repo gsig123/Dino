@@ -131,25 +131,31 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
 router.get('/admin', ensureLoggedIn, function(req, res, next){
   var userEmail = req.session.user.email;
   DBController.findAllUserInfo(userEmail, function(err, user){
-      req.session.regenerate(function (){
-          req.session.userInfo = user;
-          req.session.userInfo.Email = userEmail;
-          console.log(user);
-          res.render('adminPage', {Email: userEmail, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website})
-      });
+    req.session.userInfo = user;
+    req.session.userInfo.Email = userEmail;
+    console.log(user);
+    res.render('adminPage', {Email: userEmail, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website});
   });
   var userInfo= req.session.userInfo;
   console.log(userInfo);
 });
-//edit Button for restaurant information
-router.post('/admin',function(req, res, next){
-    res.redirect('/editRestaurantInfo');
+//Button to edit page
+router.post('/admin/editRestaurantInfo',function(req, res, next){
+    var userLogged=req.session.user;
+    var user=req.session.userInfo;
+    console.log(user);
+    res.render('editRestaurantInfo',{user:userLogged, Email: user.Email, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website});
 });
-//editPage
-router.get('editRestaurantInfo', function(req, res, next){
-    var user = req.session.userInfo;
-    res.render('editRestaurantInfo', {Email: user.Email, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website})
-});
+
+//save edit (not finished)
+router.post('/admin/saveChanges',function(req, res, next){
+    res.redirect('/users/admin');
+})
+//Button to add offer page
+router.post('/admin/addOfferInRestaurant', function(req, res, next){
+    var user = req.session.user;
+    res.render('admin',{user: user});
+})
 //-------------------------------------------
 
 // Middleware to make sure user is logged in.
