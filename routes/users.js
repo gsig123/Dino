@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
-var uploadRestImg = multer({ dest: './public/img/restaurantImg' });
-var uploadOfferImg = multer({dest: './public/img/offerImg'});
+var upload = multer({ dest: './public/img/restaurantImg' });
 var DBController = require('../lib/DBController');
 
 
-// GET Login view. calls middleware "redirectIfLoggedIn" to check if 
-// user is already logged in and then redirects. 
+// GET Login view. calls middleware "redirectIfLoggedIn" to check if
+// user is already logged in and then redirects.
 router.get('/login', redirectIfLoggedIn, function(req, res, next){
    res.render('login');
 
@@ -23,8 +22,8 @@ function redirectIfLoggedIn(req, res, next){
     }
 }
 
-// POST on login view. 
-// Tries to log user in 
+// POST on login view.
+// Tries to log user in
 // if it doesn't work -> Render to login page.
 router.post('/login', function(req, res, next){
     var email = req.body.email;
@@ -49,10 +48,10 @@ router.get('/signup', function(req, res, next){
 	res.render('signup');
 });
 
-// POST on signup view. 
+// POST on signup view.
 // Tries to signup a new user.
-// If errors -> Render signup page with errors. 
-router.post('/signup', uploadRestImg.single('restaurantImage'), function(req, res, next){
+// If errors -> Render signup page with errors.
+router.post('/signup', upload.single('restaurantImage'), function(req, res, next){
 
 	// Get values from form
 	var restaurantName = req.body.restaurantName;
@@ -94,7 +93,7 @@ router.post('/signup', uploadRestImg.single('restaurantImage'), function(req, re
 
     // Check for validation errors
     if(errors){
-    	
+
     	// If errors exist then render view and display error msg
     	res.render('signup', {
     		errors: errors
@@ -104,13 +103,13 @@ router.post('/signup', uploadRestImg.single('restaurantImage'), function(req, re
     	// Else create newUser object from form values
     	var newUser = {
     		restaurantName: restaurantName,
-    		email: email, 
-    		password: password, 
-    		phonenumber: phonenumber, 
-    		website: website, 
-    		address: address, 
-    		city: city, 
-    		postalCode: postalCode, 
+    		email: email,
+    		password: password,
+    		phonenumber: phonenumber,
+    		website: website,
+    		address: address,
+    		city: city,
+    		postalCode: postalCode,
     		description: description,
     		image: restaurantImageName
     	};
@@ -126,16 +125,35 @@ router.post('/signup', uploadRestImg.single('restaurantImage'), function(req, re
     }
 });
 
-// GET admin view
-// Calls middleware "ensureLoggedIn" to make sure user is logged in. 
-// Renders view with user object. 
+// GET admin view (restaurant informations)
+// Calls middleware "ensureLoggedIn" to make sure user is logged in.
+// Renders view with user object.
 router.get('/admin', ensureLoggedIn, function(req, res, next){
-    var user = req.session.user;
-	res.render('admin', {user: user});
+  var userEmail = req.session.user.email;
+  DBController.findAllUserInfo(userEmail, function(err, user){
+      req.session.regenerate(function (){
+          req.session.userInfo = user;
+          req.session.userInfo.Email = userEmail;
+          console.log(user);
+          res.render('adminPage', {Email: userEmail, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website})
+      });
+  });
+  var userInfo= req.session.userInfo;
+  console.log(userInfo);
 });
+//edit Button for restaurant information
+router.post('/admin',function(req, res, next){
+    res.redirect('/editRestaurantInfo');
+});
+//editPage
+router.get('editRestaurantInfo', function(req, res, next){
+    var user = req.session.userInfo;
+    res.render('editRestaurantInfo', {Email: user.Email, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website})
+});
+//-------------------------------------------
 
-// Middleware to make sure user is logged in. 
-// If he is not logged in -> Redirect to login page. 
+// Middleware to make sure user is logged in.
+// If he is not logged in -> Redirect to login page.
 function ensureLoggedIn(req, res, next){
     if(req.session.user){
         next();
@@ -144,10 +162,10 @@ function ensureLoggedIn(req, res, next){
     }
 };
 
-// POST on admin page to add a new offer. 
+// POST on admin page to add a new offer.
 // Redirects to admin page
-router.post('/addOffer', uploadOfferImg.single('offerImage'), function(req, res, next){
-    // Get values from form
+router.post('/addOffer', upload.single('offerImage'), function(req, res, next){
+        // Get values from form
     var offerName = req.body.offerName;
     var price = req.body.price;
     var type = req.body.type;
@@ -167,7 +185,7 @@ router.post('/addOffer', uploadOfferImg.single('offerImage'), function(req, res,
     console.log(timeFrom);
     var timeTo = req.body.timeTo;
 
-    // Check image upload 
+    // Check image upload
     if(req.file){
         var offerImageName = req.file.filename;
     }else{
@@ -196,18 +214,15 @@ router.post('/addOffer', uploadOfferImg.single('offerImage'), function(req, res,
     } else {
         // Else create newOffer object from form values
         // include restaurantId
-        // 
-        console.log(req.session.user);
         var newOffer = {
             restId: req.session.user.id,
-            restName: req.session.user.restaurantName,
-            offerName: offerName, 
-            price: price, 
+            offerName: offerName,
+            price: price,
             type: type,
-            description: description, 
-            startDate: startDate, 
-            endDate: endDate, 
-            days: days, 
+            description: description,
+            startDate: startDate,
+            endDate: endDate,
+            days: days,
             timeFrom: timeFrom,
             timeTo: timeTo,
             offerImageName: offerImageName
@@ -220,7 +235,7 @@ router.post('/addOffer', uploadOfferImg.single('offerImage'), function(req, res,
             console.log(offer);
         });
 
-    // Redirect to admin page 
+    // Redirect to admin page
     res.redirect('/users/admin');
 });
 
