@@ -35,17 +35,21 @@ block content
 								div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
 									h4(class="restaurantName") #{offer.restName}
 									img(src="img/offerImg/#{offer.photo}")
-									h4 #{offer.name}
-									h4(class="price") #{offer.price}
+									h4(class="offerName") #{offer.name}
+									h4(class="price") #{offer.price} kr
 
 						//- Offer Modal View
 						div(class="modalContainer modal fade offer-modal-#{offer.id}" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
 							div(class="modal-dialog modal-sm" role="document")
 								div(class="modal-content")
-									h2 #{offer.name}
-									img(src="img/offerImg/#{offer.photo}")
-									p #{offer.description}
-									h3 #{offer.price}
-									br
+									div(class="modal-header")
+										h2 #{offer.name}
+									div(class="modal-body")
+										img(src="img/offerImg/#{offer.photo}")
+										p #{offer.description}
+										h3 #{offer.price}
+										br
+									div(class="modal-footer")
+										a(src="/profile/#{offer.restId}") Hamborgarabúlla Tómasar 
 
 

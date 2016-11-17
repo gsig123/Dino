@@ -59,7 +59,14 @@ a {
 }
 
 .offerContainer .restaurantName {
+	height: 3em;
 	font-weight: bold;
+}
+
+.offerContainer .offerName {
+	font-weight: bold;
+	margin-top: 20px;
+	height: 2em;
 }
 
 .offerContainer .price {
