@@ -6,31 +6,27 @@ block content
 			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
 				div(class="well col-xs-12 col-sm-12 col-md-12 col-lg-12")
 					img(src="img/logo.png" class="indexImg")
-					br
 					h3(class="text-center" class="indexPhrase") The best way to find something to eat
-					br
 					form(method="post", action="/search")
 						div(class="form-group has-feedback")
 							input(type="text" class="form-control" id="searchBar" placeholder="Search" name="searchBar" value="#{searchBar}")
 							i(class="glyphicon glyphicon-search form-control-feedback")
-						div(class="form-group text-center")
-							br
+						div(class="form-group text-center type-buttons")
 							div(class="btn-group" role="group" aria-label="...")
 								if types
 									each type in types
 										input(class="btn btn-default types #{type.active}" type="button" value="#{type.name}")
 						div(class="form-group text-center")
 							if priceRange
-								br
 								b(id="price-slider-low") #{priceRange.low} kr
 								input(class="priceRange" input id="price-slider" data-slider-min="500" data-slider-max="10000" data-slider-step="100" data-slider-value="[#{priceRange.low}, #{priceRange.high}]" value="[#{priceRange.low}, #{priceRange.high}]" data-slider-tooltip="hide" name="priceRange" )
 								b(id="price-slider-high") #{priceRange.high} kr
-						div(class="form-group text-center")
+						div(class="form-group text-center submit-button")
 							button(type="submit" class="btn btn-info") Search
 				div(class="row")
 				if offerlist 
 					each offer in offerlist
-						div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
+						div(class="offerContainer col-xs-12 col-sm-6 col-md-4 col-lg-3")
 							a(data-toggle="modal" data-target=".offer-modal-#{offer.id}")
 								div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
 									h4(class="restaurantName") #{offer.restName}
@@ -42,14 +38,11 @@ block content
 						div(class="modalContainer modal fade offer-modal-#{offer.id}" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
 							div(class="modal-dialog modal-sm" role="document")
 								div(class="modal-content")
-									div(class="modal-header")
+									img(src="img/offerImg/#{offer.photo}")
+									div(class="modal-text-container")
 										h2 #{offer.name}
-									div(class="modal-body")
-										img(src="img/offerImg/#{offer.photo}")
 										p #{offer.description}
-										h3 #{offer.price}
-										br
-									div(class="modal-footer")
-										a(src="/profile/#{offer.restId}") Hamborgarabúlla Tómasar 
+										h3(class="price") #{offer.price} kr
+										a(src="/profile/#{offer.restId}") #{offer.restName}
 
 
