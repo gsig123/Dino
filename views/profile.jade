@@ -1,34 +1,44 @@
 extends layout
 
 block content
-	div(class="well")
+	div(class="well restProfile-info-container")
 		div(class="row")
-			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
-				h1(class="") The Fish Company
+			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title")
+				h1(class="text-center") #{restaurantInfo.restaurantName}
 			div(class="col-xs-12 col-sm-6 col-md-6 col-lg-6")
-				img(src="/img/fclogo.png" class="")
-				h3 Info
-				p Vesturgata 2a, 101 Reykjavík
-				p 828-3287
-				a(href="/") Website
+				img(src="/img/restaurantImg/#{restaurantInfo.image}")
 			div(class="col-xs-12 col-sm-6 col-md-6 col-lg-6")
 				h3 Description
-				p "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains."
+				p #{restaurantInfo.description}
+				h3 Info
+				each branch in branches 
+					p #{branch.address}
+					p #{branch.postal}
+					p #{branch.city}
+				i(class="glyphicon glyphicon-earphone")
+				a(href="tel:#{restaurantInfo.phonenumber}") #{restaurantInfo.phonenumber} 
+				br
+				br
+				i(class="glyphicon glyphicon-globe")
+				a(href="http://#{restaurantInfo.website}") Website
 	div(class="restProfile-offer-container")
 		div(class="row")
 			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
 				h2(class="text-center") Offers
-				a(data-toggle="collapse" href="#test" aria-expanded="false" aria-controls="")
-					div(class="well")
-						div(class="pull-left")
-							h4(class="pull-left bold") Fish of the day
-						div(class="pull-right")
-							h4(class="pull-left price") 1890 kr
-						div(class="clearfix")
-						div(class="collapse" id="test") 
-							h5(class="bold") Description
-							p Fish and stuff
-							h5(class="bold") Days of week
-							p Mon-Fri
-							h5(class="bold") Time
-							p 11:30-14:30 
+				each offer in offers
+					a(data-toggle="collapse" href="##{offer.id}" aria-expanded="false" aria-controls="")
+						div(class="well")
+							div(class="pull-left")
+								h4(class="pull-left bold") #{offer.name}
+							div(class="pull-right")
+								h4(class="pull-left price") #{offer.price} kr
+							div(class="clearfix")
+							div(class="collapse" id="#{offer.id}") 
+								h5(class="bold") Description
+								p #{offer.description}
+								h5(class="bold") Type
+								p #{offer.type}
+								h5(class="bold") Days of week
+								p Dagar.....
+								h5(class="bold") Time
+								p Tími....

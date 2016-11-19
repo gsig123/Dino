@@ -42,10 +42,11 @@ function initIfNeeded(req, res, next) {
 
 // GET profile
 // Render profile page
-router.get('/profile:id', getRestaurantInfoById, getOffersByRestaurantId, function(req, res, next) {
+router.get('/profile:id', getRestaurantInfoById, getOffersByRestaurantId, getRestaurantBranches, function(req, res, next) {
     var restaurantInfo = req.restaurantInfo;
     var offers = req.offers; 
-    res.render('profile', {restInfo: restaurantInfo, offers: offers});
+    var branches = req.branches;
+    res.render('profile', {restaurantInfo: restaurantInfo, offers: offers, branches: branches});
 });
 
 // Middleware
@@ -64,8 +65,16 @@ function getOffersByRestaurantId(req, res, next){
     var restId = req.params.id;
     DBController.getOffersByRestId(restId, function(err, result){
         if(err) throw err;
-        console.log(result);
         req.offers = result;
+        next();
+    });
+}
+
+function getRestaurantBranches(req, res, next){
+    var restId = req.params.id;
+    DBController.getRestaurantBranchesByRestId(restId, function(err, result){
+        if(err) throw err;
+        req.branches = result;
         next();
     });
 }

@@ -29,8 +29,8 @@ block content
 						div(class="offerContainer col-xs-12 col-sm-6 col-md-4 col-lg-3")
 							a(data-toggle="modal" data-target=".offer-modal-#{offer.id}")
 								div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
-									h4(class="restaurantName") #{offer.restName}
-									img(src="img/offerImg/#{offer.photo}")
+									//- h4(class="restaurantName") #{offer.restName}
+									//- img(src="img/offerImg/#{offer.photo}")
 									h4(class="offerName") #{offer.name}
 									h4(class="price") #{offer.price} kr
 
@@ -43,6 +43,6 @@ block content
 										h2 #{offer.name}
 										p #{offer.description}
 										h3(class="price") #{offer.price} kr
-										a(src="/profile#{offer.restId}") #{offer.restName}
+										a(href="/profile#{offer.restId}") #{offer.restName}
 
 

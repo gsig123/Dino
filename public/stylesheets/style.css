@@ -109,6 +109,10 @@ a {
 	margin-bottom: 30px;
 }
 
+.modalContainer img {
+	width: 100%;	
+
+}
 .modal-text-container {
 	background-color: #f5f5f5;
 	padding-top: 20px;
@@ -137,6 +141,14 @@ b {
 }
 .restProfile-offer-container .well:hover {
 	background-color: #DCDCDC;
+}
+
+.restProfile-info-container img{
+	width: 100%;
+}
+
+.restProfile-info-container h1 {
+	margin-bottom: 40px;
 }
 
 .bold {
