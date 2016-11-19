@@ -4,71 +4,31 @@ block content
 	div(class="well")
 		div(class="row")
 			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
-				h1 Fish Company
-				br
+				h1(class="") The Fish Company
 			div(class="col-xs-12 col-sm-6 col-md-6 col-lg-6")
-				img(src="/img/fclogo.png")
-				br
+				img(src="/img/fclogo.png" class="")
 				h3 Info
-				br
 				p Vesturgata 2a, 101 Reykjavík
-				br
 				p 828-3287
-				br
 				a(href="/") Website
 			div(class="col-xs-12 col-sm-6 col-md-6 col-lg-6")
-				h3 Type
-				p Fish, Steak
-				br
 				h3 Description
-				br
 				p "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains."
-
-	div(class="row")
-		div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
-			a(data-toggle="modal" data-target=".offer-modal-1")
-				div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
-					h4(class="restaurantName") Fish Company
-					img(src="img/fclogo.png")
-					h4 Finest Fish
-					h4(class="price") 5.400 kr
-		div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
-			a(data-toggle="modal" data-target=".offer-modal-2")
-				div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
-					h4(class="restaurantName") Fish Company
-					img(src="img/fclogo.png")
-					h4 Finest Fish
-					h4(class="price") 5.400 kr
-		div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
-			a(data-toggle="modal" data-target=".offer-modal")
-				div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
-					h4(class="restaurantName") Fish Company
-					img(src="img/fclogo.png")
-					h4 Finest Fish
-					h4(class="price") 5.400 kr
-		div(class="offerContainer col-xs-12 col-sm-6 col-md-3 col-lg-3")
-			a(data-toggle="modal" data-target=".offer-modal")
-				div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
-					h4(class="restaurantName") Fish Company
-					img(src="img/fclogo.png")
-					h4 Finest Fish
-					h4(class="price") 5.400 kr
-
-		//- Offer Modal View
-		div(class="modalContainer modal fade offer-modal-1" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
-			div(class="modal-dialog modal-lg" role="document")
-				div(class="modal-content")
-					h2 FINEST FISH 1
-					img(src="img/fclogo.png")
-					p straight from the sea, via our old friend the FISHERMAN – Please consult your waiter
-					h3 5.400 kr
-					br
-						
-		div(class="modalContainer modal fade offer-modal-2" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
-			div(class="modal-dialog modal-lg" role="document")
-				div(class="modal-content")
-					h2 FINEST FISH 1
-					img(src="img/fclogo.png")
-					p straight from the sea, via our old friend the FISHERMAN – Please consult your waiter
-					h3 5.400 kr
-					br
+	div(class="restProfile-offer-container")
+		div(class="row")
+			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
+				h2(class="text-center") Offers
+				a(data-toggle="collapse" href="#test" aria-expanded="false" aria-controls="")
+					div(class="well")
+						div(class="pull-left")
+							h4(class="pull-left bold") Fish of the day
+						div(class="pull-right")
+							h4(class="pull-left price") 1890 kr
+						div(class="clearfix")
+						div(class="collapse" id="test") 
+							h5(class="bold") Description
+							p Fish and stuff
+							h5(class="bold") Days of week
+							p Mon-Fri
+							h5(class="bold") Time
+							p 11:30-14:30 

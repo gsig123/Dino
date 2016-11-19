@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var SearchParams = require('../lib/SearchParams');
 var SearchController = require('../lib/SearchController');
+var DBController = require('../lib/DBController');
 
 
 // TEST
@@ -41,9 +42,35 @@ function initIfNeeded(req, res, next) {
 
 // GET profile
 // Render profile page
-router.get('/profile', function(req, res, next) {
-    res.render('profile');
+router.get('/profile:id', getRestaurantInfoById, getOffersByRestaurantId, function(req, res, next) {
+    var restaurantInfo = req.restaurantInfo;
+    var offers = req.offers; 
+    res.render('profile', {restInfo: restaurantInfo, offers: offers});
 });
+
+// Middleware
+function getRestaurantInfoById(req, res, next){
+    var id = req.params.id;
+    DBController.getRestaurantById(id, function(err, result){
+        if(err) throw err;
+        req.restaurantInfo = result; 
+        next();
+    });
+}
+
+// Middleware
+function getOffersByRestaurantId(req, res, next){
+    // console.log("getOffersByRestaurantId: " + req.params.id);
+    var restId = req.params.id;
+    DBController.getOffersByRestId(restId, function(err, result){
+        if(err) throw err;
+        console.log(result);
+        req.offers = result;
+        next();
+    });
+}
+
+
 
 router.post('/search', function(req, res, next) {
     res.redirect('/');
@@ -120,6 +147,5 @@ router.post('/updateSearchBar', function(req, res, next) {
         res.sendStatus(200);
     });
 });
-
 
 module.exports = router;

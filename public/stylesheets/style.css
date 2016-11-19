@@ -119,3 +119,26 @@ b {
 	margin-left: 15px;
 	margin-right: 15px;
 }
+
+.restProfile-offer-container a{
+	text-decoration: none;
+}
+
+.restProfile-offer-container h2 {
+	margin-bottom: 20px;
+}
+
+.restProfile-offer-container a {
+	color: black;
+}
+
+.restProfile-offer-container .price {
+	color: #3EA055;
+}
+.restProfile-offer-container .well:hover {
+	background-color: #DCDCDC;
+}
+
+.bold {
+	font-weight: bold;
+}

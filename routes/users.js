@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: './public/img/restaurantImg' });
+var upload2 = multer({dest: './public/img/offerImg'});
 var DBController = require('../lib/DBController');
 
 
@@ -131,6 +132,8 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
 router.get('/admin', ensureLoggedIn, function(req, res, next){
   var userEmail = req.session.user.email;
   DBController.findAllUserInfo(userEmail, function(err, user){
+    /// VANTAR ERROR HANDLING!!!
+
     req.session.userInfo = user;
     req.session.userInfo.Email = userEmail;
     console.log(user);
@@ -140,6 +143,10 @@ router.get('/admin', ensureLoggedIn, function(req, res, next){
   console.log(userInfo);
 });
 //Button to edit page
+//==================================
+//==================================
+//==================================
+// This should be a GET not a POST!!!
 router.post('/admin/editRestaurantInfo',function(req, res, next){
     var userLogged=req.session.user;
     var user=req.session.userInfo;
@@ -148,11 +155,16 @@ router.post('/admin/editRestaurantInfo',function(req, res, next){
 });
 
 //save edit (not finished)
+//==================================
+//==================================
+//==================================
+// This should be a PUT not a POST!!!
 router.post('/admin/saveChanges',function(req, res, next){
     res.redirect('/users/admin');
 })
+
 //Button to add offer page
-router.post('/admin/addOfferInRestaurant', function(req, res, next){
+router.get('/addOffer', ensureLoggedIn, function(req, res, next){
     var user = req.session.user;
     res.render('admin',{user: user});
 })
@@ -170,7 +182,7 @@ function ensureLoggedIn(req, res, next){
 
 // POST on admin page to add a new offer.
 // Redirects to admin page
-router.post('/addOffer', upload.single('offerImage'), function(req, res, next){
+router.post('/addOffer', upload2.single('offerImage'), function(req, res, next){
         // Get values from form
     var offerName = req.body.offerName;
     var price = req.body.price;
@@ -231,7 +243,8 @@ router.post('/addOffer', upload.single('offerImage'), function(req, res, next){
             days: days,
             timeFrom: timeFrom,
             timeTo: timeTo,
-            offerImageName: offerImageName
+            offerImageName: offerImageName,
+            restName: req.session.user.restaurantName
         }
     };
 
