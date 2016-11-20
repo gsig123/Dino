@@ -70,6 +70,7 @@ function getOffersByRestaurantId(req, res, next){
     });
 }
 
+// Middleware
 function getRestaurantBranches(req, res, next){
     var restId = req.params.id;
     DBController.getRestaurantBranchesByRestId(restId, function(err, result){

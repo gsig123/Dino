@@ -1,0 +1,72 @@
+extends layout
+
+block content
+	div(class="well")
+		br
+		h2 Add an offer
+		if errors
+			for error in errors
+				div(class="alert alert-danger") #{error.msg}
+
+		form(method="post", action="/users/editOffer#{offerValues.id}", enctype="multipart/form-data")
+			div(class="form-group")
+				label Name of the offer
+				input(class="form-control", name="offerName", type="text", placeholder="Enter offer name" value="#{offerValues.name}")
+			div(class="form-group")
+				label Price
+				input(class="form-control", name="price", type="number", placeholder="Enter price" value="#{offerValues.price}")
+			div(class="form-group")
+				label Type
+				br
+				select(name="type" value="#{offerValues.type}")
+					option(value="Fast Food") Fast Food
+					option(value="Asian") Asian
+					option(value="Fish") Fish
+					option(value="Steak") Steak
+					option(value="Italian") Italian
+					option(value="Vegan") Vegan
+					option(value="Kebab") Kebab
+					option(value="Burger") Burger
+					option(value="Pizza") Pizza
+			div(class="form-group")
+				label Description 
+				textarea(class="form-control", name="description", placeholder="Enter Description") #{offerValues.description}
+			div(class="form-group")
+				label Start Date
+				br
+				input(type="date", name="startDate" value="#{offerValues.startDate}") 
+			div(class="form-group")
+				label End Date
+				br
+				input(type="date", name="endDate", value="#{offerValues.endDate}") 
+			div(class="form-group")
+				p Days when offer is available
+				label All days
+				input(type="checkbox", name="allDays") 
+				label Mondays
+				input(type="checkbox", name="mondays") 
+				label Tuesdays
+				input(type="checkbox", name="tuesdays") 
+				label Wednesdays
+				input(type="checkbox", name="wednesdays") 
+				label Thursdays
+				input(type="checkbox", name="thursdays") 
+				label Fridays
+				input(type="checkbox", name="fridays")
+				label Saturdays
+				input(type="checkbox", name="saturdays")
+				label Sundays
+				input(type="checkbox", name="sundays") 
+			div(class="form-group")
+				label Available From
+				br
+				input(type="time", name="timeFrom")
+			div(class="form-group")
+				label Available To
+				br
+				input(type="time", name="timeTo")
+			div(class="form-group")
+				label Image #{offerValues.photo}
+				input(type="file", class="form-control", name="offerImage")
+			input(type="hidden" value="#{offerValues.photo}", name="originalOfferImage")
+			input(class="btn btn-primary", type="submit", name="submit", value="Add offer")
