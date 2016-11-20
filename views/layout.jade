@@ -21,6 +21,8 @@ html
 				div(id="navbar" class="navbar-collapse collapse")
 					ul(class="nav navbar-nav navbar-right")
 						if user 
+							li
+								a(href="/users/admin") Admin Page
 							li 
 								a(href="/users/logout") Logout
 						else

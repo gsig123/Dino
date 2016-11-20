@@ -2,21 +2,21 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: './public/img/restaurantImg' });
-var upload2 = multer({dest: './public/img/offerImg'});
+var upload2 = multer({ dest: './public/img/offerImg' });
 var DBController = require('../lib/DBController');
 
 
 // GET Login view. calls middleware "redirectIfLoggedIn" to check if
 // user is already logged in and then redirects.
-router.get('/login', redirectIfLoggedIn, function(req, res, next){
-   res.render('login');
+router.get('/login', redirectIfLoggedIn, function(req, res, next) {
+    res.render('login');
 
 });
 
 // Middleware to check if user is logged in
 // If user is logged in -> Redirect to index
-function redirectIfLoggedIn(req, res, next){
-    if (req.session.user){
+function redirectIfLoggedIn(req, res, next) {
+    if (req.session.user) {
         res.redirect('/');
     } else {
         next();
@@ -26,12 +26,12 @@ function redirectIfLoggedIn(req, res, next){
 // POST on login view.
 // Tries to log user in
 // if it doesn't work -> Render to login page.
-router.post('/login', function(req, res, next){
+router.post('/login', function(req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
-    DBController.auth(email, password, function(err, user){
-        if(user){
-            req.session.regenerate(function (){
+    DBController.auth(email, password, function(err, user) {
+        if (user) {
+            req.session.regenerate(function() {
                 req.session.user = user;
                 res.redirect('admin');
             });
@@ -43,36 +43,36 @@ router.post('/login', function(req, res, next){
 
 
 // GET signup view
-router.get('/signup', function(req, res, next){
-	res.render('signup');
+router.get('/signup', function(req, res, next) {
+    res.render('signup');
 });
 
 // POST on signup view.
 // Tries to signup a new user.
 // If errors -> Render signup page with errors.
-router.post('/signup', upload.single('restaurantImage'), function(req, res, next){
+router.post('/signup', upload.single('restaurantImage'), function(req, res, next) {
 
-	// Get values from form
-	var restaurantName = req.body.restaurantName;
-	var email = req.body.email;
-	var password = req.body.password;
-	var password2 = req.body.password2;
-	var phonenumber = req.body.phonenumber;
-	var website = req.body.website;
-	var address = req.body.address;
-	var city = req.body.city;
-	var postalCode = req.body.postalCode;
-	var description = req.body.description;
+    // Get values from form
+    var restaurantName = req.body.restaurantName;
+    var email = req.body.email;
+    var password = req.body.password;
+    var password2 = req.body.password2;
+    var phonenumber = req.body.phonenumber;
+    var website = req.body.website;
+    var address = req.body.address;
+    var city = req.body.city;
+    var postalCode = req.body.postalCode;
+    var description = req.body.description;
 
-	// Check image upload
-	if(req.file){
-		var restaurantImageName = req.file.filename;
-	} else {
-		var restaurantImageName = 'noImage.jpg';
-	}
+    // Check image upload
+    if (req.file) {
+        var restaurantImageName = req.file.filename;
+    } else {
+        var restaurantImageName = 'noImage.jpg';
+    }
 
-	// Validation
-	req.checkBody('restaurantName', 'Restaurant name is required').notEmpty();
+    // Validation
+    req.checkBody('restaurantName', 'Restaurant name is required').notEmpty();
     req.checkBody('email', 'Email is required').notEmpty();
     req.checkBody('email', 'Email is not valid').isEmail();
     req.checkBody('password', 'Password is required').notEmpty();
@@ -89,66 +89,65 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
     var errors = req.validationErrors();
 
     // Check for validation errors
-    if(errors){
+    if (errors) {
 
-    	// If errors exist then render view and display error msg
-    	res.render('signup', {
-    		errors: errors
-    	});
+        // If errors exist then render view and display error msg
+        res.render('signup', {
+            errors: errors
+        });
     } else {
 
-    	// Else create newUser object from form values
-    	var newUser = {
-    		restaurantName: restaurantName,
-    		email: email,
-    		password: password,
-    		phonenumber: phonenumber,
-    		website: website,
-    		address: address,
-    		city: city,
-    		postalCode: postalCode,
-    		description: description,
-    		image: restaurantImageName
-    	};
+        // Else create newUser object from form values
+        var newUser = {
+            restaurantName: restaurantName,
+            email: email,
+            password: password,
+            phonenumber: phonenumber,
+            website: website,
+            address: address,
+            city: city,
+            postalCode: postalCode,
+            description: description,
+            image: restaurantImageName
+        };
 
-    	// Create a new user in the database
-    	DBController.createUser(newUser, function(err, user){
-    		if(err) throw err;
-    	});
+        // Create a new user in the database
+        DBController.createUser(newUser, function(err, user) {
+            if (err) throw err;
+        });
 
-    	// Redirect to index
-    	res.redirect('/');
+        // Redirect to index
+        res.redirect('/');
     }
 });
 
 // GET admin view (restaurant informations)
 // Calls middleware "ensureLoggedIn" to make sure user is logged in.
 // Renders view with user object.
-router.get('/admin', ensureLoggedIn, function(req, res, next){
-  var userEmail = req.session.user.email;
-  DBController.findAllUserInfo(userEmail, function(err, user){
-    /// VANTAR ERROR HANDLING!!!
-    if (err)
-        throw (err);
-    else {
-        var branch;
-        req.session.userInfo = user;
-        req.session.userInfo.Email = userEmail;
-        DBController.getRestaurantBranchesByRestId(user.id, function(err, branches){
-            if(err)
-                throw (err);
-            else {
-                console.log(branches)
-                branch = branches;
-            }
-        });
-        DBController.getOffersByRestId(user.id,function(err ,offers){
-            if (err)
-                throw (err);
-            else {
-                console.log(user);
-                res.render('adminPage', {Email: userEmail, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website, offers: offers, branches: branch});
-                console.log(offers);
+router.get('/admin', ensureLoggedIn, function(req, res, next) {
+    var userEmail = req.session.user.email;
+    DBController.findAllUserInfo(userEmail, function(err, user) {
+        if (err)
+            throw (err);
+        else {
+            var branch;
+            req.session.userInfo = user;
+            req.session.userInfo.Email = userEmail;
+            DBController.getRestaurantBranchesByRestId(user.id, function(err, branches) {
+                if (err)
+                    throw (err);
+                else {
+                    console.log(branches)
+                    branch = branches;
+                    DBController.getOffersByRestId(user.id, function(err, offers) {
+                        if (err)
+                            throw (err);
+                        else {
+                            console.log(user);
+                            res.render('adminPage', { Email: userEmail, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website, offers: offers, branches: branch });
+                            console.log(offers);
+                        }
+                    });
                 }
             });
         }
@@ -159,10 +158,10 @@ router.get('/admin', ensureLoggedIn, function(req, res, next){
 //==================================
 //==================================
 // This should be a GET not a POST!!!
-router.post('/admin/editRestaurantInfo',function(req, res, next){
-    var userLogged=req.session.user;
-    var user=req.session.userInfo;
-    res.render('editRestaurantInfo',{user:userLogged, Email: user.Email, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website});
+router.post('/admin/editRestaurantInfo', function(req, res, next) {
+    var userLogged = req.session.user;
+    var user = req.session.userInfo;
+    res.render('editRestaurantInfo', { user: userLogged, Email: user.Email, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website });
 });
 
 //save edit (not finished)
@@ -170,21 +169,21 @@ router.post('/admin/editRestaurantInfo',function(req, res, next){
 //==================================
 //==================================
 // This should be a PUT not a POST!!!
-router.post('/admin/saveChanges',function(req, res, next){
+router.post('/admin/saveChanges', function(req, res, next) {
     res.redirect('/users/admin');
 })
 
 //Button to add offer page
-router.get('/addOffer', ensureLoggedIn, function(req, res, next){
-    var user = req.session.user;
-    res.render('admin',{user: user});
-})
-//-------------------------------------------
+router.get('/addOffer', ensureLoggedIn, function(req, res, next) {
+        var user = req.session.user;
+        res.render('admin', { user: user });
+    })
+    //-------------------------------------------
 
 // Middleware to make sure user is logged in.
 // If he is not logged in -> Redirect to login page.
-function ensureLoggedIn(req, res, next){
-    if(req.session.user){
+function ensureLoggedIn(req, res, next) {
+    if (req.session.user) {
         next();
     } else {
         res.redirect('/users/login');
@@ -193,8 +192,8 @@ function ensureLoggedIn(req, res, next){
 
 // POST on admin page to add a new offer.
 // Redirects to admin page
-router.post('/addOffer', upload2.single('offerImage'), function(req, res, next){
-        // Get values from form
+router.post('/addOffer', upload2.single('offerImage'), function(req, res, next) {
+    // Get values from form
     var offerName = req.body.offerName;
     var price = req.body.price;
     var type = req.body.type;
@@ -214,9 +213,9 @@ router.post('/addOffer', upload2.single('offerImage'), function(req, res, next){
     var timeTo = req.body.timeTo;
 
     // Check image upload
-    if(req.file){
+    if (req.file) {
         var offerImageName = req.file.filename;
-    }else{
+    } else {
         var offerImageName = 'noOfferImage.jpg';
     }
 
@@ -234,7 +233,7 @@ router.post('/addOffer', upload2.single('offerImage'), function(req, res, next){
     var errors = req.validationErrors();
 
     // Check for validation errors
-    if(errors){
+    if (errors) {
         // If errors exist then render view and display error msg
         res.render('admin', {
             errors: errors
@@ -258,10 +257,10 @@ router.post('/addOffer', upload2.single('offerImage'), function(req, res, next){
         }
     };
 
-        // Create a new user in the database
-        DBController.createOffer(newOffer, function(err, offer){
-            if(err) throw err;
-        });
+    // Create a new user in the database
+    DBController.createOffer(newOffer, function(err, offer) {
+        if (err) throw err;
+    });
 
     // Redirect to admin page
     res.redirect('/users/admin');
@@ -269,8 +268,8 @@ router.post('/addOffer', upload2.single('offerImage'), function(req, res, next){
 
 // GET to logout
 // Destroys user session
-router.get('/logout', function(req, res, next){
-    req.session.destroy(function(){
+router.get('/logout', function(req, res, next) {
+    req.session.destroy(function() {
         res.redirect('/');
     });
 });
@@ -280,47 +279,46 @@ router.get('/logout', function(req, res, next){
 // and renders it into a form.
 // Needs to check if this user has the permission to 
 // edit this offer. 
-router.get('/editOffer:id', ensureLoggedIn, hasPermission, getValues, function(req, res, next){
+router.get('/editOffer:id', ensureLoggedIn, hasPermission, getValues, function(req, res, next) {
     var offerValues = req.offerValues;
     req.session.offerValues = offerValues;
     offerValues.startDate = formatDate(offerValues.startDate);
     offerValues.endDate = formatDate(offerValues.endDate);
-    res.render('editOffers', {offerValues: offerValues});
+    res.render('editOffers', { offerValues: offerValues });
 });
 
 // Formats date to YYYY-MM-DD
-function formatDate(d)
- {
-  date = new Date(d)
-  var dd = date.getDate(); 
-  var mm = date.getMonth()+1;
-  var yyyy = date.getFullYear(); 
-  if(dd<10){dd='0'+dd} 
-  if(mm<10){mm='0'+mm};
-  return d = yyyy + '-' +mm+'-'+dd;
+function formatDate(d) {
+    date = new Date(d)
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yyyy = date.getFullYear();
+    if (dd < 10) { dd = '0' + dd }
+    if (mm < 10) { mm = '0' + mm };
+    return d = yyyy + '-' + mm + '-' + dd;
 }
 
 // Middleware to check if user has permission to edit this offer
-function hasPermission(req, res, next){
+function hasPermission(req, res, next) {
     // var offerId = req.params.id;
     var offerId = req.params.id;
     var userId = req.session.user.id;
 
     // Get by offerId restId from DB 
-    DBController.getRestIdById(offerId, function(err, result){
-        if(err) throw err;
-        if(result && result.restId === userId){
+    DBController.getRestIdById(offerId, function(err, result) {
+        if (err) throw err;
+        if (result && result.restId === userId) {
             next();
-        }else{
+        } else {
             res.redirect('/users/admin');
         }
     });
 }
 
 // Middleware to get offer values from database.
-function getValues(req, res, next){
-    DBController.getOffersById(req.params.id, function(err, result){
-        if(err){
+function getValues(req, res, next) {
+    DBController.getOffersById(req.params.id, function(err, result) {
+        if (err) {
             throw err;
             // Error page??
             res.redirect('/users/admin');
@@ -331,12 +329,12 @@ function getValues(req, res, next){
 }
 
 
-router.post('/editOffer:id', upload2.single('offerImage'), editOffer, function(req, res, next){
+router.post('/editOffer:id', upload2.single('offerImage'), editOffer, function(req, res, next) {
     res.redirect('/users/admin');
 });
 
 // Middleware to edit offer in DB
-function editOffer(req, res, next){
+function editOffer(req, res, next) {
     // Get values from form
     var offerName = req.body.offerName;
     var price = req.body.price;
@@ -357,9 +355,9 @@ function editOffer(req, res, next){
     var timeTo = req.body.timeTo;
 
     // Check image upload
-    if(req.file){
+    if (req.file) {
         var offerImageName = req.file.filename;
-    }else{
+    } else {
         var offerImageName = req.body.originalOfferImage;
     }
 
@@ -377,7 +375,7 @@ function editOffer(req, res, next){
     var errors = req.validationErrors();
 
     // Check for validation errors
-    if(errors){
+    if (errors) {
         // We need to render the view with errors and the values that
         // have been updated - Not a pretty solution...
         // We use the session to do this...
@@ -389,7 +387,8 @@ function editOffer(req, res, next){
         req.session.offerValues.photo = offerImageName;
         // If errors exist then render view and display error msg
         res.render('editOffers', {
-            errors: errors, offerValues: req.session.offerValues
+            errors: errors,
+            offerValues: req.session.offerValues
         });
     } else {
         // Else create newOffer object from form values
@@ -408,10 +407,10 @@ function editOffer(req, res, next){
             offerImageName: offerImageName
         }
 
-    DBController.editOffer(offer, function(err, result){
-        if(err) throw err;
-        next();
-    });
+        DBController.editOffer(offer, function(err, result) {
+            if (err) throw err;
+            next();
+        });
     };
 }
 
