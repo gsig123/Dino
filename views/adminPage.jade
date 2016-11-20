@@ -12,10 +12,11 @@ block content
 				h3 Description
 				p #{description}
 				h3 Info
-				each branch in branches 
-					p #{branch.address}
-					p #{branch.postal}
-					p #{branch.city}
+				if branch
+					each branch in branches 
+						p #{branch.address}
+						p #{branch.postal}
+						p #{branch.city}
 				i(class="glyphicon glyphicon-earphone")
 				a(href="tel:#{phonenumber}") #{phonenumber} 
 				br
