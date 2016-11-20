@@ -133,14 +133,31 @@ router.get('/admin', ensureLoggedIn, function(req, res, next){
   var userEmail = req.session.user.email;
   DBController.findAllUserInfo(userEmail, function(err, user){
     /// VANTAR ERROR HANDLING!!!
-
-    req.session.userInfo = user;
-    req.session.userInfo.Email = userEmail;
-    console.log(user);
-    res.render('adminPage', {Email: userEmail, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website});
-  });
-  var userInfo= req.session.userInfo;
-  console.log(userInfo);
+    if (err)
+        throw (err);
+    else {
+        var branch;
+        req.session.userInfo = user;
+        req.session.userInfo.Email = userEmail;
+        DBController.getRestaurantBranchesByRestId(user.id, function(err, branches){
+            if(err)
+                throw (err);
+            else {
+                console.log(branches)
+                branch = branches;
+            }
+        });
+        DBController.getOffersByRestId(user.id,function(err ,offers){
+            if (err)
+                throw (err);
+            else {
+                console.log(user);
+                res.render('adminPage', {Email: userEmail, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website, offers: offers, branches: branch});
+                console.log(offers);
+                }
+            });
+        }
+    });
 });
 //Button to edit page
 //==================================
