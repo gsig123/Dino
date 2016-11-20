@@ -414,4 +414,19 @@ function editOffer(req, res, next) {
     };
 }
 
+router.delete('/delete:id', ensureLoggedIn, hasPermission, deleteOffer, function(req, res, next){
+    res.sendStatus(200);
+});
+
+// Middleware to delete offer from DB
+function deleteOffer(req, res, next){
+    var id = req.params.id;
+    DBController.deleteOfferById(id, function(err, result){
+        if(err) {throw err;
+        }else{
+        next();
+    }
+    });
+}
+
 module.exports = router;

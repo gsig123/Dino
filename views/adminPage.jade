@@ -54,3 +54,7 @@ block content
 								p Dagar.....
 								h5(class="bold") Time
 								p Tími....
+								a(class="btn btn-default", href="/users/editOffer#{offer.id}")
+									span(class="glyphicon glyphicon-edit" aria-hidden="true")
+								a(class="btn btn-danger delete-offer", href="", data-id="#{offer.id}")
+									span(class="glyphicon glyphicon-remove" aria-hidden="true")
