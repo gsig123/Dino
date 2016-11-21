@@ -44,6 +44,7 @@ function initIfNeeded(req, res, next) {
 // Render profile page
 router.get('/profile:id', getRestaurantInfoById, getOffersByRestaurantId, getRestaurantBranches, function(req, res, next) {
     var restaurantInfo = req.restaurantInfo;
+    console.log(restaurantInfo);
     var offers = req.offers; 
     var branches = req.branches;
     res.render('profile', {restaurantInfo: restaurantInfo, offers: offers, branches: branches});
