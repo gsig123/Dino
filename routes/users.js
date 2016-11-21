@@ -123,36 +123,24 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
 
 // GET admin view (restaurant informations)
 // Calls middleware "ensureLoggedIn" to make sure user is logged in.
+// Calls getRestaurantInfo, getRestaurantBranches, getRestaurantOffers to get all information about the restaurant.
 // Renders view with user object.
-router.get('/admin', ensureLoggedIn, function(req, res, next) {
-    var userEmail = req.session.user.email;
-    DBController.findAllUserInfo(userEmail, function(err, user) {
-        if (err)
-            throw (err);
-        else {
-            var branch;
-            req.session.userInfo = user;
-            req.session.userInfo.Email = userEmail;
-            DBController.getRestaurantBranchesByRestId(user.id, function(err, branches) {
-                if (err)
-                    throw (err);
-                else {
-                    console.log(branches)
-                    branch = branches;
-                    DBController.getOffersByRestId(user.id, function(err, offers) {
-                        if (err)
-                            throw (err);
-                        else {
-                            console.log(user);
-                            res.render('adminPage', { Email: userEmail, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website, offers: offers, branches: branch });
-                            console.log(offers);
-                        }
-                    });
-                }
-            });
-        }
-    });
+router.get('/admin', ensureLoggedIn, getRestaurantInfo, getRestaurantBranches, getRestaurantOffers, function(req, res, next) {
+    var user = req.userInfo;
+    var branches = req.branches;
+    var offers = req.RestaurantOffers;
+    var Email = req.session.user.email;
+    res.render('adminPage', { Email: Email, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website, offers: offers, branches: branches });
 });
+//GET restaurant offers by restaurant id.
+function getRestaurantOffers(req, res, next) {
+    var id = req.session.user.id;
+    DBController.getOffersByRestId(id, function(err, result){
+        if (err) throw err;
+        req.RestaurantOffers = result;
+        next();
+    });
+}
 //GET request to get editRestaurantInfo view
 router.get('/editRestaurantInfo', ensureLoggedIn, getRestaurantInfo, getRestaurantBranches, function(req, res, next) {
     var user = req.userInfo;
@@ -251,7 +239,7 @@ router.get('/editRestaurantImage', ensureLoggedIn, function(req, res, next){
 // POST request to edit image
 router.post('/editRestaurantImage', upload.single('restaurantImage'), editRestaurantImage, function(req, res, next){
     res.redirect('/users/admin');
-}); 
+});
 
 // Middleware to edit restaurant image in DB
 function editRestaurantImage(req, res, next){
@@ -369,10 +357,10 @@ router.get('/logout', function(req, res, next) {
 });
 
 
-// Get's offer info that user wants to edit 
+// Get's offer info that user wants to edit
 // and renders it into a form.
-// Needs to check if this user has the permission to 
-// edit this offer. 
+// Needs to check if this user has the permission to
+// edit this offer.
 router.get('/editOffer:id', ensureLoggedIn, hasPermission, getValues, function(req, res, next) {
     var offerValues = req.offerValues;
     req.session.offerValues = offerValues;
@@ -398,7 +386,7 @@ function hasPermission(req, res, next) {
     var offerId = req.params.id;
     var userId = req.session.user.id;
 
-    // Get by offerId restId from DB 
+    // Get by offerId restId from DB
     DBController.getRestIdById(offerId, function(err, result) {
         if (err) throw err;
         if (result && result.restId === userId) {
