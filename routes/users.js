@@ -153,16 +153,96 @@ router.get('/admin', ensureLoggedIn, function(req, res, next) {
         }
     });
 });
-//Button to edit page
-//==================================
-//==================================
-//==================================
-// This should be a GET not a POST!!!
-router.post('/admin/editRestaurantInfo', function(req, res, next) {
-    var userLogged = req.session.user;
-    var user = req.session.userInfo;
-    res.render('editRestaurantInfo', { user: userLogged, Email: user.Email, restaurantName: user.restaurantName, image: user.image, description: user.description, phonenumber: user.phonenumber, website: user.website });
+//GET request to get editRestaurantInfo view
+router.get('/editRestaurantInfo', ensureLoggedIn, getRestaurantInfo, getRestaurantBranches, function(req, res, next) {
+    var user = req.userInfo;
+    var branches = req.branches;
+    // Branches[0] for now, only one branch allowed at this time........
+    res.render('editRestaurantInfo', {restaurant: user, branches: branches[0]});
 });
+
+// Middleware to get restaurant info
+function getRestaurantInfo(req, res, next){
+    var id = req.session.user.id;
+    DBController.getRestaurantById(id, function(err, result){
+        if(err) throw err;
+        req.userInfo = result;
+        next();
+    });
+}
+
+// Middleware to get restaurant branches
+function getRestaurantBranches(req, res, next){
+    var restId = req.session.user.id;
+    DBController.getRestaurantBranchesByRestId(restId, function(err, result){
+        if(err) throw err;
+        req.branches = result;
+        next();
+    });
+}
+
+// POST request to edit restaurant info
+router.post('/editRestaurantInfo', ensureLoggedIn, validateEditRestInput, editRestaurant, editBranches, function(req, res, next){
+    console.log("HERE");
+    res.redirect('/users/admin');
+});
+
+// Middleware to validate edit restaurant input
+function validateEditRestInput(req, res, next){
+    // Put Inputs in request objects
+    req.restaurant = {
+        restaurantName: req.body.restaurantName,
+        phonenumber: req.body.phonenumber, 
+        website: req.body.website, 
+        description: req.body.description
+    }
+    req.branches = {
+        address: req.body.address,
+        city: req.body.city, 
+        postal: req.body.postalCode
+    }
+
+    // Validation
+    req.checkBody('phonenumber', 'Phonenumber is required').notEmpty();
+    req.checkBody('phonenumber', 'Phonenumber should be 7 digits').isLength(7);
+    req.checkBody('website', 'Website is required').notEmpty();
+    req.checkBody('address', 'Address is required').notEmpty();
+    req.checkBody('city', 'City is required').notEmpty();
+    req.checkBody('postalCode', 'Postal Code is required').notEmpty();
+    
+    // Validation errors
+    var errors = req.validationErrors();
+
+    if(errors){
+        res.render('editRestaurantInfo', {errors: errors, restaurant: req.restaurant, branches: req.branches});
+    }else{
+        next();
+    }
+
+
+}
+
+//Middleware to edit restaurant info
+function editRestaurant(req, res, next){
+    var id = req.session.user.id;
+    var restaurant = req.restaurant;
+    DBController.editRestaurantById(id, restaurant, function(err, result){
+        if(err) throw err;
+        next();
+    });
+}
+
+
+//Middleware to edit branches info
+function editBranches(req, res, next){
+    var id = req.session.user.id;
+    var branches = req.branches;
+    DBController.editBranchesById(id, branches, function(err, result){
+        if(err) throw err;
+        next();
+    });
+}
+
 
 //save edit (not finished)
 //==================================

@@ -26,13 +26,8 @@ block content
 				br
 				br
 				div
-					form(method="post", action="/users/admin/editRestaurantInfo", enctype="multipart/form-data")
-						input(class="btn btn-primary", type="submit", name="submit", value="Edit Restaurant Informations")
-						br
-						br
-				div
-					a(class="btn btn-primary" href="/users/addOffer") Add Offer
-					
+					a(class="btn btn-primary", href="/users/editRestaurantInfo") Edit Info
+					a(class="btn btn-primary", href="/users/addOffer") Add Offer
 	div(class="restProfile-offer-container")
 		div(class="row")
 			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
