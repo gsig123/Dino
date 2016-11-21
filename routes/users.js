@@ -158,47 +158,47 @@ router.get('/editRestaurantInfo', ensureLoggedIn, getRestaurantInfo, getRestaura
     var user = req.userInfo;
     var branches = req.branches;
     // Branches[0] for now, only one branch allowed at this time........
-    res.render('editRestaurantInfo', {restaurant: user, branches: branches[0]});
+    res.render('editRestaurantInfo', { restaurant: user, branches: branches[0] });
 });
 
 // Middleware to get restaurant info
-function getRestaurantInfo(req, res, next){
+function getRestaurantInfo(req, res, next) {
     var id = req.session.user.id;
-    DBController.getRestaurantById(id, function(err, result){
-        if(err) throw err;
+    DBController.getRestaurantById(id, function(err, result) {
+        if (err) throw err;
         req.userInfo = result;
         next();
     });
 }
 
 // Middleware to get restaurant branches
-function getRestaurantBranches(req, res, next){
+function getRestaurantBranches(req, res, next) {
     var restId = req.session.user.id;
-    DBController.getRestaurantBranchesByRestId(restId, function(err, result){
-        if(err) throw err;
+    DBController.getRestaurantBranchesByRestId(restId, function(err, result) {
+        if (err) throw err;
         req.branches = result;
         next();
     });
 }
 
 // POST request to edit restaurant info
-router.post('/editRestaurantInfo', ensureLoggedIn, validateEditRestInput, editRestaurant, editBranches, function(req, res, next){
+router.post('/editRestaurantInfo', ensureLoggedIn, validateEditRestInput, editRestaurant, editBranches, function(req, res, next) {
     console.log("HERE");
     res.redirect('/users/admin');
 });
 
 // Middleware to validate edit restaurant input
-function validateEditRestInput(req, res, next){
+function validateEditRestInput(req, res, next) {
     // Put Inputs in request objects
     req.restaurant = {
         restaurantName: req.body.restaurantName,
-        phonenumber: req.body.phonenumber, 
-        website: req.body.website, 
+        phonenumber: req.body.phonenumber,
+        website: req.body.website,
         description: req.body.description
     }
     req.branches = {
         address: req.body.address,
-        city: req.body.city, 
+        city: req.body.city,
         postal: req.body.postalCode
     }
 
@@ -209,13 +209,13 @@ function validateEditRestInput(req, res, next){
     req.checkBody('address', 'Address is required').notEmpty();
     req.checkBody('city', 'City is required').notEmpty();
     req.checkBody('postalCode', 'Postal Code is required').notEmpty();
-    
+
     // Validation errors
     var errors = req.validationErrors();
 
-    if(errors){
-        res.render('editRestaurantInfo', {errors: errors, restaurant: req.restaurant, branches: req.branches});
-    }else{
+    if (errors) {
+        res.render('editRestaurantInfo', { errors: errors, restaurant: req.restaurant, branches: req.branches });
+    } else {
         next();
     }
 
@@ -223,42 +223,56 @@ function validateEditRestInput(req, res, next){
 }
 
 //Middleware to edit restaurant info
-function editRestaurant(req, res, next){
+function editRestaurant(req, res, next) {
     var id = req.session.user.id;
     var restaurant = req.restaurant;
-    DBController.editRestaurantById(id, restaurant, function(err, result){
-        if(err) throw err;
+    DBController.editRestaurantById(id, restaurant, function(err, result) {
+        if (err) throw err;
         next();
     });
 }
 
 
 //Middleware to edit branches info
-function editBranches(req, res, next){
+function editBranches(req, res, next) {
     var id = req.session.user.id;
     var branches = req.branches;
-    DBController.editBranchesById(id, branches, function(err, result){
-        if(err) throw err;
+    DBController.editBranchesById(id, branches, function(err, result) {
+        if (err) throw err;
         next();
     });
 }
 
+// GET request to get change image view
+router.get('/editRestaurantImage', ensureLoggedIn, function(req, res, next){
+    res.render('editRestaurantImage');
+});
 
-//save edit (not finished)
-//==================================
-//==================================
-//==================================
-// This should be a PUT not a POST!!!
-router.post('/admin/saveChanges', function(req, res, next) {
+// POST request to edit image
+router.post('/editRestaurantImage', upload.single('restaurantImage'), editRestaurantImage, function(req, res, next){
     res.redirect('/users/admin');
-})
+}); 
+
+// Middleware to edit restaurant image in DB
+function editRestaurantImage(req, res, next){
+    var id = req.session.user.id;
+    // Check image upload
+    if (req.file) {
+        var restaurantImg = req.file.filename;
+        DBController.editRestaurantImageById(id, restaurantImg, function(err, result){
+            if(err) throw err;
+            res.redirect('/users/admin');
+        });
+    } else {
+        res.redirect('/users/admin');
+    }
+}
 
 //Button to add offer page
 router.get('/addOffer', ensureLoggedIn, function(req, res, next) {
-        var user = req.session.user;
-        res.render('admin', { user: user });
-    })
-    //-------------------------------------------
+    var user = req.session.user;
+    res.render('admin', { user: user });
+});
 
 // Middleware to make sure user is logged in.
 // If he is not logged in -> Redirect to login page.
@@ -494,18 +508,19 @@ function editOffer(req, res, next) {
     };
 }
 
-router.delete('/delete:id', ensureLoggedIn, hasPermission, deleteOffer, function(req, res, next){
+router.delete('/delete:id', ensureLoggedIn, hasPermission, deleteOffer, function(req, res, next) {
     res.sendStatus(200);
 });
 
 // Middleware to delete offer from DB
-function deleteOffer(req, res, next){
+function deleteOffer(req, res, next) {
     var id = req.params.id;
-    DBController.deleteOfferById(id, function(err, result){
-        if(err) {throw err;
-        }else{
-        next();
-    }
+    DBController.deleteOfferById(id, function(err, result) {
+        if (err) {
+            throw err;
+        } else {
+            next();
+        }
     });
 }
 

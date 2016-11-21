@@ -1,0 +1,16 @@
+extends layout
+
+block content
+
+	div(class="well")
+
+		h1 Change Your Photo
+		if errors
+			for error in errors
+				div(class="alert alert-danger") #{error.msg}
+
+		form(method="post", action="/users/editRestaurantImage", enctype="multipart/form-data")
+			div(class="form-group")
+				label New Image
+				input(type="file", class="form-control", name="restaurantImage")
+			input(class="btn btn-primary", type="submit", name="submit", value="Save Changes")
