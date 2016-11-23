@@ -77,6 +77,11 @@ $(document).ready(function() {
         updateSortByOnServer(name);
     });
 
+    ordering.change(function(){
+        var name = $(this).attr('id');
+        updateOrderingOnServer(name);
+    });
+
     // ==============================
 
 });

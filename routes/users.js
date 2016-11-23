@@ -171,7 +171,6 @@ function getRestaurantBranches(req, res, next) {
 
 // POST request to edit restaurant info
 router.post('/editRestaurantInfo', ensureLoggedIn, validateEditRestInput, editRestaurant, editBranches, function(req, res, next) {
-    console.log("HERE");
     res.redirect('/users/admin');
 });
 

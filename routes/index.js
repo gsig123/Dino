@@ -19,7 +19,6 @@ router.get('/', initIfNeeded, function(req, res, next) {
     var searchBar = params.searchBar;
     var sortBy = params.sortBy;
     var ordering = params.ordering;
-
     SearchController.getOfferList(params, function(err, offerlist) {
         if (err) throw err;
         // render with params
@@ -82,7 +81,6 @@ function getRestaurantBranches(req, res, next){
 
 
 router.post('/search', function(req, res, next) {
-    console.log("Here: " + req.body.sortBy);
     res.redirect('/');
 });
 
