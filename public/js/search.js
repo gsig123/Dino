@@ -12,7 +12,7 @@ $(document).ready(function() {
     var priceHighText = $('#price-slider-high');
     var searchBar = $('#searchBar');
     var sortBy = $('.sortBy');
-    var ordering = $('.ordering')
+    var ordering = $('.ordering');
 
     // Set the active sorting option to be selected. 
     sortBy.each(function(){

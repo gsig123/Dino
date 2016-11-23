@@ -139,7 +139,7 @@ b {
 .restProfile-offer-container .price {
 	color: #3EA055;
 }
-.restProfile-offer-container .well:hover {
+.offer-hover-class:hover {
 	background-color: #DCDCDC;
 }
 
