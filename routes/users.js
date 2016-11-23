@@ -282,15 +282,14 @@ router.post('/addOffer', upload2.single('offerImage'), function(req, res, next) 
     var description = req.body.description;
     var startDate = req.body.startDate;
     var endDate = req.body.endDate;
-    var days = {
-        mondays: req.body.mondays === "on",
-        tuesdays: req.body.tuesdays === "on",
-        wednesdays: req.body.wednesdays === "on",
-        thursdays: req.body.thursdays === "on",
-        fridays: req.body.fridays === "on",
-        saturdays: req.body.saturdays === "on",
-        sundays: req.body.sundays === "on"
-    }
+    // Array [s,m,t,w,t,f,s] which has 1 or 0 for active / not active.
+    var weekdays = [(req.body.sundays === "on" ? 1 : 0),
+                    (req.body.mondays === "on" ? 1 : 0),
+                    (req.body.tuesdays === "on" ? 1 : 0),
+                    (req.body.wednesdays === "on" ? 1 : 0),
+                    (req.body.thursdays === "on" ? 1 : 0),
+                    (req.body.fridays === "on" ? 1 : 0),
+                    (req.body.saturdays === "on" ? 1 : 0)];
     var timeFrom = req.body.timeFrom;
     var timeTo = req.body.timeTo;
 
@@ -331,7 +330,7 @@ router.post('/addOffer', upload2.single('offerImage'), function(req, res, next) 
             description: description,
             startDate: startDate,
             endDate: endDate,
-            days: days,
+            weekdays: weekdays,
             timeFrom: timeFrom,
             timeTo: timeTo,
             offerImageName: offerImageName,
@@ -347,6 +346,7 @@ router.post('/addOffer', upload2.single('offerImage'), function(req, res, next) 
     // Redirect to admin page
     res.redirect('/users/admin');
 });
+
 
 // GET to logout
 // Destroys user session
