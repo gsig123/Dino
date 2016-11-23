@@ -1,15 +1,13 @@
 extends layout
 
 block content
-	div(class="well restProfile-info-container")
+	div(class="well restProfile-info-container col-xs-12 col-sm-12 col-md-8 col-lg-8")
 		div(class="row")
 			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title")
 				h1(class="text-center") #{restaurantInfo.restaurantName}
-			div(class="col-xs-12 col-sm-6 col-md-6 col-lg-6")
+			div(class="col-xs-12 col-sm-12 col-md-8 col-lg-8")
 				img(src="/img/restaurantImg/#{restaurantInfo.image}")
-			div(class="col-xs-12 col-sm-6 col-md-6 col-lg-6")
-				h3 Description
-				p #{restaurantInfo.description}
+			div(class="col-xs-12 col-sm-12 col-md-4 col-lg-4")
 				h3 Info
 				each branch in branches 
 					p #{branch.address}
@@ -21,24 +19,28 @@ block content
 				br
 				i(class="glyphicon glyphicon-globe")
 				a(href="http://#{restaurantInfo.website}") Website
-	div(class="restProfile-offer-container")
-		div(class="row")
 			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
-				h2(class="text-center") Offers
-				each offer in offers
-					a(data-toggle="collapse" href="##{offer.id}" aria-expanded="false" aria-controls="")
-						div(class="well")
-							div(class="pull-left")
-								h4(class="pull-left bold") #{offer.name}
-							div(class="pull-right")
-								h4(class="pull-left price") #{offer.price} kr
-							div(class="clearfix")
-							div(class="collapse" id="#{offer.id}") 
-								h5(class="bold") Description
-								p #{offer.description}
-								h5(class="bold") Type
-								p #{offer.type}
-								h5(class="bold") Days of week
-								p Dagar.....
-								h5(class="bold") Time
-								p Tími....
+				h3 Description
+				p #{restaurantInfo.description}
+	div(class="restProfile-offer-container col-xs-12 col-sm-12 col-md-4 col-lg-4")
+		div(class="well col-xs-12 col-sm-12 col-md-12 col-lg-12")
+			div(class="row")
+				div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
+					h2(class="text-center") Offers
+					each offer in offers
+						a(data-toggle="collapse" href="##{offer.id}" aria-expanded="false" aria-controls="")
+							div(class="well")
+								div(class="pull-left")
+									h4(class="pull-left bold") #{offer.name}
+								div(class="pull-right")
+									h4(class="pull-left price") #{offer.price} kr
+								div(class="clearfix")
+								div(class="collapse" id="#{offer.id}") 
+									h5(class="bold") Description
+									p #{offer.description}
+									h5(class="bold") Type
+									p #{offer.type}
+									h5(class="bold") Days of week
+									p Dagar.....
+									h5(class="bold") Time
+									p Tími....
