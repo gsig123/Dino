@@ -17,12 +17,12 @@ router.get('/', initIfNeeded, function(req, res, next) {
     var types = params.types;
     var priceRange = params.priceRange;
     var searchBar = params.searchBar;
+    var sortBy = params.sortBy;
 
     SearchController.getOfferList(params, function(err, offerlist) {
         if (err) throw err;
-        console.log(offerlist);
         // render with params
-        res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, offerlist: offerlist });
+        res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, sortBy: sortBy, offerlist: offerlist });
     });
 });
 
@@ -32,7 +32,6 @@ router.get('/', initIfNeeded, function(req, res, next) {
 function initIfNeeded(req, res, next) {
     if (!req.session.params) {
         SearchParams.init(req, function(params) {
-            console.log(params);
             next();
         });
     } else {
@@ -44,7 +43,6 @@ function initIfNeeded(req, res, next) {
 // Render profile page
 router.get('/profile:id', getRestaurantInfoById, getOffersByRestaurantId, getRestaurantBranches, function(req, res, next) {
     var restaurantInfo = req.restaurantInfo;
-    console.log(restaurantInfo);
     var offers = req.offers; 
     var branches = req.branches;
     res.render('profile', {restaurantInfo: restaurantInfo, offers: offers, branches: branches});
@@ -62,7 +60,6 @@ function getRestaurantInfoById(req, res, next){
 
 // Middleware
 function getOffersByRestaurantId(req, res, next){
-    // console.log("getOffersByRestaurantId: " + req.params.id);
     var restId = req.params.id;
     DBController.getOffersByRestId(restId, function(err, result){
         if(err) throw err;
@@ -84,6 +81,7 @@ function getRestaurantBranches(req, res, next){
 
 
 router.post('/search', function(req, res, next) {
+    console.log("Here: " + req.body.sortBy);
     res.redirect('/');
 });
 
@@ -91,7 +89,6 @@ router.post('/search', function(req, res, next) {
 router.get('/testStuff', function(req, res, next) {
     SearchController.getOfferList(req.session.params, function(err, results) {
         if (err) throw err;
-        console.log(results);
     });
 });
 
@@ -131,7 +128,7 @@ router.post('/updatePriceRange:values', function(req, res, next) {
         res.sendStatus(200);
     });
 });
-// BUG : Keeps previous search string on empty string input
+
 // A post request => Called from frontend to update searchBar
 router.post('/updateSearchBar:searchString', function(req, res, next) {
 
@@ -155,6 +152,14 @@ router.post('/updateSearchBar', function(req, res, next) {
 
     // Send to session
     SearchParams.updateSearchBar(searchBar, req, function() {
+        res.sendStatus(200);
+    });
+});
+
+// A post request => Called from frontend to update sortBy
+router.post('/updateSortBy:name', function(req, res, next){
+    var name = req.params.name;
+    SearchParams.updateSortBy(name, req, function(){
         res.sendStatus(200);
     });
 });

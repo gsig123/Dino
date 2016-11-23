@@ -22,6 +22,12 @@ block content
 								input(class="priceRange" input id="price-slider" data-slider-min="0" data-slider-max="10000" data-slider-step="100" data-slider-value="[#{priceRange.low}, #{priceRange.high}]" value="[#{priceRange.low}, #{priceRange.high}]" data-slider-tooltip="hide" name="priceRange" )
 								b(id="price-slider-high") #{priceRange.high} kr
 						div(class="form-group text-center submit-button")
+							if sortBy 
+								each sort in sortBy
+									label(for="#{sort.name}") #{sort.name}
+									input(type="radio" name="sortBy" id="#{sort.name}" class="#{sort.checked} sortBy") 
+							br
+							br
 							button(type="submit" class="btn btn-info") Search
 				div(class="row")
 				if offerlist 
@@ -29,8 +35,6 @@ block content
 						div(class="offerContainer col-xs-12 col-sm-6 col-md-4 col-lg-3")
 							a(data-toggle="modal" data-target=".offer-modal-#{offer.id}")
 								div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
-									//- h4(class="restaurantName") #{offer.restName}
-									//- img(src="img/offerImg/#{offer.photo}")
 									h4(class="offerName") #{offer.name}
 									h4(class="type") #{offer.type}
 									h4(class="price") #{offer.price} kr

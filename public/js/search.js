@@ -11,6 +11,13 @@ $(document).ready(function() {
     var priceLowText = $('#price-slider-low');
     var priceHighText = $('#price-slider-high');
     var searchBar = $('#searchBar');
+    var sortBy = $('.sortBy');
+
+    // Set the active sorting option to be selected. 
+    sortBy.each(function(){
+        if($(this).hasClass("checked")) $(this).attr("checked", "checked");
+    });
+
 
     // ==============================
 
@@ -57,6 +64,12 @@ $(document).ready(function() {
     	var searchString = this.value;
     	
     	updateSearchBarOnServer(searchString);
+    });
+
+
+    sortBy.change(function(){
+        var name = $(this).attr('id');
+        updateSortByOnServer(name);
     });
 
     // ==============================
@@ -106,4 +119,13 @@ var updateSearchBarOnServer = function(searchString){
 		type: 'POST',
 		url: url
 	});
+}
+
+// Update sortBy by POST request on server => Stored in session. 
+var updateSortByOnServer = function(name){
+    var url = '/updateSortBy' + name;
+    $.ajax({
+        type: 'POST', 
+        url: url
+    });
 }
