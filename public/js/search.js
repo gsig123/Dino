@@ -12,9 +12,14 @@ $(document).ready(function() {
     var priceHighText = $('#price-slider-high');
     var searchBar = $('#searchBar');
     var sortBy = $('.sortBy');
+    var ordering = $('.ordering')
 
     // Set the active sorting option to be selected. 
     sortBy.each(function(){
+        if($(this).hasClass("checked")) $(this).attr("checked", "checked");
+    });
+    // Set the active ordering option to be selected. 
+    ordering.each(function(){
         if($(this).hasClass("checked")) $(this).attr("checked", "checked");
     });
 
@@ -126,6 +131,14 @@ var updateSortByOnServer = function(name){
     var url = '/updateSortBy' + name;
     $.ajax({
         type: 'POST', 
+        url: url
+    });
+}
+
+var updateOrderingOnServer = function(name){
+    var url = '/updateOrdering' + name;
+    $.ajax({
+        type: 'POST',
         url: url
     });
 }

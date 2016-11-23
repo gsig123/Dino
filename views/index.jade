@@ -27,6 +27,12 @@ block content
 									label(for="#{sort.name}") #{sort.name}
 									input(type="radio" name="sortBy" id="#{sort.name}" class="#{sort.checked} sortBy") 
 							br
+							if ordering
+								each x in ordering
+
+									label(for="#{x.name}") #{x.name}
+									input(type="radio" name="ordering" id="#{x.name}" class="#{x.checked} ordering")
+							br
 							br
 							button(type="submit" class="btn btn-info") Search
 				div(class="row")

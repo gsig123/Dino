@@ -18,11 +18,12 @@ router.get('/', initIfNeeded, function(req, res, next) {
     var priceRange = params.priceRange;
     var searchBar = params.searchBar;
     var sortBy = params.sortBy;
+    var ordering = params.ordering;
 
     SearchController.getOfferList(params, function(err, offerlist) {
         if (err) throw err;
         // render with params
-        res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, sortBy: sortBy, offerlist: offerlist });
+        res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, sortBy: sortBy, ordering: ordering, offerlist: offerlist });
     });
 });
 
@@ -160,6 +161,14 @@ router.post('/updateSearchBar', function(req, res, next) {
 router.post('/updateSortBy:name', function(req, res, next){
     var name = req.params.name;
     SearchParams.updateSortBy(name, req, function(){
+        res.sendStatus(200);
+    });
+});
+
+// A post request => Called from frontend to update ordering
+router.post('/updateOrdering:name', function(req, res, next){
+    var name = req.params.name;
+    SearchParams.updateOrdering(name, req, function(){
         res.sendStatus(200);
     });
 });
