@@ -47,9 +47,9 @@ block content
 								h5(class="bold") Type
 								p #{offer.type}
 								h5(class="bold") Days of week
-								p Dagar.....
+								p #{offer.weekdays}
 								h5(class="bold") Time
-								p Tími....
+								p #{offer.timeFrom} to #{offer.timeTo}
 								a(class="btn btn-default", href="/users/editOffer#{offer.id}")
 									span(class="glyphicon glyphicon-edit" aria-hidden="true")
 								a(class="btn btn-danger delete-offer", href="", data-id="#{offer.id}")
