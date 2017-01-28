@@ -1,0 +1,4 @@
+To be able to run the app you have to have nodejs installed on your machine. If you don't have nodejs installed go to https://nodejs.org/en/download/ and follow the instructions for your machine. 
+
+When nodejs is installed - Open up your console, navigate to the Dino directory and run npm install. The app should then be available at  http://localhost:3000/ in your browser. 
+

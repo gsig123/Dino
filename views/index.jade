@@ -53,6 +53,8 @@ block content
 									div(class="modal-text-container")
 										h2 #{offer.name}
 										p #{offer.description}
+										h5(class="bold") Time
+										p #{offer.timeFrom} to #{offer.timeTo}
 										h3(class="price") #{offer.price} kr
 										a(href="/profile#{offer.restId}") #{offer.restName}
 
