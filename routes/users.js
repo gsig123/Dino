@@ -42,6 +42,24 @@ router.post('/login', function(req, res, next) {
 });
 
 
+// Login for API purposes - Checks if user exists and returns user object.
+router.post('/login-api', function(req, res, next) {
+    // Get email and password from body of HTTP request
+    var email = req.body.email;
+    var password = req.body.password;
+
+    DBController.auth(email, password, function(err, user) {
+        if (user) {
+            // If user exist return json object with user
+            res.json(user);
+        } else {
+            // If user doesn't exist, then return a json object: {id: -999}
+            res.send("{id: -999}");
+        }
+    })
+});
+
+
 // GET signup view
 router.get('/signup', function(req, res, next) {
     res.render('signup');
@@ -120,74 +138,6 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
         res.redirect('/');
     }
 });
-
-
-//////////HMMMMM,.....//////////////
-/////////////HMMMMM,.....//////////////
-/////////////HMMMMM,.....//////////////
-/////////////HMMMMM,.....//////////////
-/////////////HMMMMM,.....//////////////
-/////////////HMMMMM,.....//////////////
-function validateSignUp(req, res, next){
-    // Get values from form
-    var restaurantName = req.body.restaurantName;
-    var email = req.body.email;
-    var password = req.body.password;
-    var password2 = req.body.password2;
-    var phonenumber = req.body.phonenumber;
-    var website = req.body.website;
-    var address = req.body.address;
-    var city = req.body.city;
-    var postalCode = req.body.postalCode;
-    var description = req.body.description;
-
-    // Check image upload
-    if (req.file) {
-        var restaurantImageName = req.file.filename;
-    } else {
-        var restaurantImageName = 'noImage.jpg';
-    }
-
-    // Validation
-    req.checkBody('restaurantName', 'Restaurant name is required').notEmpty();
-    req.checkBody('email', 'Email is required').notEmpty();
-    req.checkBody('email', 'Email is not valid').isEmail();
-    req.checkBody('password', 'Password is required').notEmpty();
-    req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
-    req.checkBody('phonenumber', 'Phonenumber is required').notEmpty();
-    req.checkBody('phonenumber', 'Phonenumber should be 7 digits').isLength(7);
-    req.checkBody('website', 'Website URL is required').notEmpty();
-    req.checkBody('website', 'Website URL is not valid').isURL();
-    req.checkBody('city', 'City is required').notEmpty();
-    req.checkBody('postalCode', 'Postal Code is required').notEmpty();
-    req.checkBody('postalCode', 'Postal Code should be 3 digits').isLength(3);
-
-    // Validation errors
-    var errors = req.validationErrors();
-
-    // Check for errors
-    if(errors){
-        req.errors = errors;
-        next();
-    }else{
-        // Else create newUser object from form values
-        var newUser = {
-            restaurantName: restaurantName,
-            email: email,
-            password: password,
-            phonenumber: phonenumber,
-            website: website,
-            address: address,
-            city: city,
-            postalCode: postalCode,
-            description: description,
-            image: restaurantImageName
-        };
-        req.newUser = newUser;
-    }
-}
-
-
 
 // GET admin view (restaurant informations)
 // Calls middleware "ensureLoggedIn" to make sure user is logged in.
