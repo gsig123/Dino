@@ -9,25 +9,31 @@ block content
 					h3(class="text-center" class="indexPhrase") The best way to find something to eat
 					form(method="post", action="/search")
 						div(class="form-group has-feedback")
-							input(type="text" class="form-control" id="searchBar" placeholder="Search" name="searchBar" value="#{searchBar}")
+							input(type="text" class="form-control" id="searchBar" placeholder="What kind of meal are you looking for?" name="searchBar" value="#{searchBar}")
 							i(class="glyphicon glyphicon-search form-control-feedback")
 						div(class="form-group text-center type-buttons")
 							div(class="btn-group" role="group" aria-label="...")
+
 								if types
+									h3(class='text-center') What type?
 									each type in types
 										input(class="btn btn-default types #{type.active}" type="button" value="#{type.name}")
 						div(class="form-group text-center")
+
 							if priceRange
+								h3(class='text-center') How much?
 								b(id="price-slider-low") #{priceRange.low} kr
 								input(class="priceRange" input id="price-slider" data-slider-min="0" data-slider-max="10000" data-slider-step="100" data-slider-value="[#{priceRange.low}, #{priceRange.high}]" value="[#{priceRange.low}, #{priceRange.high}]" data-slider-tooltip="hide" name="priceRange" )
 								b(id="price-slider-high") #{priceRange.high} kr
 						div(class="form-group text-center submit-button")
-							if sortBy 
+							if sortBy
+								h3(class='text-center') Sort by
 								each sort in sortBy
 									label(for="#{sort.name}") #{sort.name}
-									input(type="radio" name="sortBy" id="#{sort.name}" class="#{sort.checked} sortBy") 
+									input(type="radio" name="sortBy" id="#{sort.name}" class="#{sort.checked} sortBy")
 							br
 							if ordering
+								br
 								each x in ordering
 
 									label(for="#{x.name}") #{x.name}
@@ -36,7 +42,7 @@ block content
 							br
 							button(type="submit" class="btn btn-info") Search
 				div(class="row")
-				if offerlist 
+				if offerlist
 					each offer in offerlist
 						div(class="offerContainer col-xs-12 col-sm-6 col-md-4 col-lg-3")
 							a(data-toggle="modal" data-target=".offer-modal-#{offer.id}")
@@ -57,5 +63,3 @@ block content
 										p #{offer.timeFrom} to #{offer.timeTo}
 										h3(class="price") #{offer.price} kr
 										a(href="/profile#{offer.restId}") #{offer.restName}
-
-
