@@ -139,6 +139,57 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
     }
 });
 
+// POST to signup API
+// Returns JSON object => successful = false / true
+// Tries to signup a new user.
+// If errors -> Render signup page with errors.
+router.post('/signup-api', upload.single('restaurantImage'), function(req, res, next) {
+
+    // Get values from form
+    var restaurantName = req.body.restaurantName;
+    var email = req.body.email;
+    var password = req.body.password;
+    var password2 = req.body.password2;
+    var phonenumber = req.body.phonenumber;
+    var website = req.body.website;
+    var address = req.body.address;
+    var city = req.body.city;
+    var postalCode = req.body.postalCode;
+    var description = req.body.description;
+
+    // Check image upload
+    if (req.file) {
+        var restaurantImageName = req.file.filename;
+    } else {
+        var restaurantImageName = 'noImage.jpg';
+    }
+
+    var newUser = {
+        restaurantName: restaurantName,
+        email: email,
+        password: password,
+        phonenumber: phonenumber,
+        website: website,
+        address: address,
+        city: city,
+        postalCode: postalCode,
+        description: description,
+        image: restaurantImageName
+        };
+
+        // Create a new user in the database
+        DBController.createUser(newUser, function(err, user) {
+            if (err) {
+              // Return JSON object with success: false if something fails
+              res.send("{success: false}");
+              throw err;
+            }
+        });
+
+        // Return JSON object with success: true if everything worked
+        res.send("{success: true}");
+});
+
 // GET admin view (restaurant informations)
 // Calls middleware "ensureLoggedIn" to make sure user is logged in.
 // Calls getRestaurantInfo, getRestaurantBranches, getRestaurantOffers to get all information about the restaurant.
