@@ -5,6 +5,8 @@ var upload = multer({ dest: './public/img/restaurantImg' });
 var upload2 = multer({ dest: './public/img/offerImg' });
 var DBController = require('../lib/DBController');
 
+var authentication = require('../middleware/authentication');
+
 
 // GET Login view. calls middleware "redirectIfLoggedIn" to check if
 // user is already logged in and then redirects.
@@ -43,22 +45,10 @@ router.post('/login', function(req, res, next) {
 
 
 // Login for API purposes - Checks if user exists and returns user object.
-router.post('/login-api', function(req, res, next) {
-    // Get email and password from body of HTTP request
-    var email = req.body.email;
-    var password = req.body.password;
-
-    DBController.auth(email, password, function(err, user) {
-        if (user) {
-            // If user exist return json object with user
-            res.json(user);
-        } else {
-            // If user doesn't exist, then return a json object: {id: -999}
-            res.send("{id: -999}");
-        }
-    })
+router.post('/login-api', authentication.login, function(req, res, next) {
+    if(req.user) res.json(req.user);
+    else res.json("{id: -999}");
 });
-
 
 // GET signup view
 router.get('/signup', function(req, res, next) {
