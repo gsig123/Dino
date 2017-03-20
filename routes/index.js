@@ -32,13 +32,15 @@ router.post('/api-offerlist', function(req, res, next){
 
   // Get params from session
   var params = req.body;
-
-  SearchController.getOfferList(params, function(err, offerlist) {
-      if (err) throw err;
-      // render with params
-      // res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, sortBy: sortBy, ordering: ordering, offerlist: offerlist });
-      res.send(offerlist);
-  });
+  if(params.searchBar){
+    SearchController.getOfferList(params, function(err, offerlist) {
+        if (err) res.send("{error: error}");
+        // render with params
+        // res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, sortBy: sortBy, ordering: ordering, offerlist: offerlist });
+        res.send(offerlist);
+    });
+}
+res.send("{error: error}");
 });
 
 
