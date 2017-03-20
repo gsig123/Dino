@@ -14,6 +14,7 @@ router.get('/', initIfNeeded, function(req, res, next) {
 
     // Get params from session
     var params = req.session.params;
+    console.log(params);
     var types = params.types;
     var priceRange = params.priceRange;
     var searchBar = params.searchBar;
@@ -27,9 +28,24 @@ router.get('/', initIfNeeded, function(req, res, next) {
 });
 
 
+router.post('/api-offerlist', function(req, res, next){
+
+  // Get params from session
+  var params = req.body;
+
+  SearchController.getOfferList(params, function(err, offerlist) {
+      if (err) throw err;
+      // render with params
+      // res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, sortBy: sortBy, ordering: ordering, offerlist: offerlist });
+      res.send(offerlist);
+  });
+});
+
+
 // Checks if params are in session.
-// Initializes if they are missing. 
+// Initializes if they are missing.
 function initIfNeeded(req, res, next) {
+    console.log("We here mayne");
     if (!req.session.params) {
         SearchParams.init(req, function(params) {
             next();
@@ -43,7 +59,7 @@ function initIfNeeded(req, res, next) {
 // Render profile page
 router.get('/profile:id', getRestaurantInfoById, getOffersByRestaurantId, getRestaurantBranches, function(req, res, next) {
     var restaurantInfo = req.restaurantInfo;
-    var offers = req.offers; 
+    var offers = req.offers;
     var branches = req.branches;
     res.render('profile', {restaurantInfo: restaurantInfo, offers: offers, branches: branches});
 });
@@ -53,7 +69,7 @@ function getRestaurantInfoById(req, res, next){
     var id = req.params.id;
     DBController.getRestaurantById(id, function(err, result){
         if(err) throw err;
-        req.restaurantInfo = result; 
+        req.restaurantInfo = result;
         next();
     });
 }
@@ -122,7 +138,7 @@ router.post('/updatePriceRange:values', function(req, res, next) {
     // Turn it into an array
     var values = JSON.parse("[" + string + "]");
 
-    // Send to session 
+    // Send to session
     SearchParams.updatePriceRange(values[0], values[1], req, function() {
         res.sendStatus(200);
     });
