@@ -133,13 +133,12 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
 // Returns JSON object => successful = false / true
 // Tries to signup a new user.
 // If errors -> Render signup page with errors.
-router.post('/signup-api', upload.single('restaurantImage'), function(req, res, next) {
+router.post('/api-signup', upload.single('restaurantImage'), function(req, res, next) {
 
     // Get values from form
     var restaurantName = req.body.restaurantName;
     var email = req.body.email;
     var password = req.body.password;
-    var password2 = req.body.password2;
     var phonenumber = req.body.phonenumber;
     var website = req.body.website;
     var address = req.body.address;
