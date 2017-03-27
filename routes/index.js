@@ -30,15 +30,13 @@ router.get('/', initIfNeeded, function(req, res, next) {
 
 
 router.post('/api-offerlist', function(req, res, next){
-
-
   // Get params from session
-  console.log(req.body);
-
   var params = req.body;
     SearchController.getOfferList(params, function(err, offerlist) {
-        if (err) res.send("{error: error}");
-        // render with params
+        if (err) {
+          res.send("{error: error}");
+        }
+        // Send offerlist as JSON object
         res.send(offerlist);
     });
 });
