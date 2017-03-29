@@ -6,7 +6,7 @@ block content
 			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
 				div(class="well col-xs-12 col-sm-12 col-md-12 col-lg-12")
 					img(src="img/logo.png" class="indexImg")
-					h3(class="text-center" class="indexPhrase") The best way to find something to eat
+					//- h3(class="text-center" class="indexPhrase") The best way to find something to eat
 					form(method="post", action="/search")
 						div(class="form-group has-feedback")
 							input(type="text" class="form-control" id="searchBar" placeholder="What kind of a meal are you looking for?" name="searchBar" value="#{searchBar}")
@@ -19,13 +19,13 @@ block content
 										input(class="btn btn-default types #{type.active}" type="button" value="#{type.name}")
 						div(class="form-group text-center")
 							if priceRange
-								h3(class='text-center') How much?
+								//- h3(class='text-center') How much?
 								b(id="price-slider-low") #{priceRange.low} kr
 								input(class="priceRange" input id="price-slider" data-slider-min="0" data-slider-max="10000" data-slider-step="100" data-slider-value="[#{priceRange.low}, #{priceRange.high}]" value="[#{priceRange.low}, #{priceRange.high}]" data-slider-tooltip="hide" name="priceRange" )
 								b(id="price-slider-high") #{priceRange.high} kr
 						div(class="form-group text-center submit-button")
 							if sortBy
-								h3(class='text-center') Sort by
+								//- h3(class='text-center') Sort by
 								each sort in sortBy
 									label(for="#{sort.name}" class="radio") #{sort.name}
 										input(type="radio" name="sortBy" id="#{sort.name}" class="#{sort.checked} sortBy") 
