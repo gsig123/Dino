@@ -15,11 +15,9 @@ block content
 							div(class="btn-group" role="group" aria-label="...")
 
 								if types
-									h3(class='text-center') What type?
 									each type in types
 										input(class="btn btn-default types #{type.active}" type="button" value="#{type.name}")
 						div(class="form-group text-center")
-
 							if priceRange
 								h3(class='text-center') How much?
 								b(id="price-slider-low") #{priceRange.low} kr
@@ -29,18 +27,20 @@ block content
 							if sortBy
 								h3(class='text-center') Sort by
 								each sort in sortBy
-									label(for="#{sort.name}") #{sort.name}
-									input(type="radio" name="sortBy" id="#{sort.name}" class="#{sort.checked} sortBy")
-							br
-							if ordering
-								br
-								each x in ordering
+									label(for="#{sort.name}" class="radio") #{sort.name}
+										input(type="radio" name="sortBy" id="#{sort.name}" class="#{sort.checked} sortBy") 
+										span(class="outer")
+											span(class="inner")
+								if ordering
+									each x in ordering
 
-									label(for="#{x.name}") #{x.name}
-									input(type="radio" name="ordering" id="#{x.name}" class="#{x.checked} ordering")
+										label(for="#{x.name}" class="radio") #{x.name}
+											input(type="radio" name="ordering" id="#{x.name}" class="#{x.checked} ordering")
+											span(class="outer")
+												span(class="inner")
 							br
 							br
-							button(type="submit" class="btn btn-info") Search
+							button(type="submit" class="btn btn-info btn-block") Search
 				div(class="row")
 				if offerlist
 					each offer in offerlist

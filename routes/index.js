@@ -34,7 +34,7 @@ router.post('/api-offerlist', function(req, res, next){
   var params = req.body;
     SearchController.getOfferList(params, function(err, offerlist) {
         if (err) {
-          res.send("{error: error}");
+          res.send("{error: error}");o
         }
         // Send offerlist as JSON object
         res.send(offerlist);
