@@ -31,10 +31,10 @@ router.post('/login', function(req, res, next) {
         if (user) {
             req.session.regenerate(function() {
                 req.session.user = user;
-                res.redirect('admin');
+                res.redirect('/users/admin');
             });
         } else {
-            res.render('login');
+            res.render('login', {errors: "Incorrect password or email"});
         }
     })
 });
@@ -312,7 +312,7 @@ function editRestaurantImage(req, res, next){
 //Button to add offer page
 router.get('/addOffer', ensureLoggedIn, function(req, res, next) {
     var user = req.session.user;
-    res.render('admin', { user: user });
+    res.render('addOffer', { user: user });
 });
 
 // Middleware to make sure user is logged in.
@@ -370,7 +370,7 @@ router.post('/addOffer', upload.uploadOffer.single('offerImage'), function(req, 
     // Check for validation errors
     if (errors) {
         // If errors exist then render view and display error msg
-        res.render('admin', {
+        res.render('addOffer', {
             errors: errors
         });
     } else {
