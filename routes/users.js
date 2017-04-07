@@ -1,39 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var multer = require('multer');
-var upload = multer({ dest: './public/img/restaurantImg' });
-var upload2 = multer({ dest: './public/img/offerImg' });
 var DBController = require('../lib/DBController');
-
 var authentication = require('../middleware/authentication');
-
-var aws = require('aws-sdk');
-aws.config.loadFromPath('./AwsConfig.json');
-var multerS3 = require('multer-s3');
-var s3 = new aws.S3({});
-
-var upload3 = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: 'dino-offer-img',
-    acl: 'public-read',
-    key: function (req, file, cb) {
-      cb(null, Date.now().toString() + ".jpg");
-    }
-  })
-});
-
-var upload4 = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: 'dino-rest-img',
-    acl: 'public-read',
-    key: function (req, file, cb) {
-      cb(null, Date.now().toString + ".jpg");
-    }
-  })
-});
-
+var upload = require('../middleware/imageUpload');
 
 // GET Login view. calls middleware "redirectIfLoggedIn" to check if
 // user is already logged in and then redirects.
@@ -85,7 +54,7 @@ router.get('/signup', function(req, res, next) {
 // POST on signup view.
 // Tries to signup a new user.
 // If errors -> Render signup page with errors.
-router.post('/signup', upload4.single('restaurantImage'), function(req, res, next) {
+router.post('/signup', upload.uploadRestaurant.single('restaurantImage'), function(req, res, next) {
 
     // Get values from form
     var restaurantName = req.body.restaurantName;
@@ -160,7 +129,7 @@ router.post('/signup', upload4.single('restaurantImage'), function(req, res, nex
 // Returns JSON object => successful = false / true
 // Tries to signup a new user.
 // If errors -> Render signup page with errors.
-router.post('/api-signup', upload4.single('restaurantImage'), function(req, res, next) {
+router.post('/api-signup', upload.uploadRestaurant.single('restaurantImage'), function(req, res, next) {
 
     // Get values from form
     var restaurantName = req.body.restaurantName;
@@ -321,7 +290,7 @@ router.get('/editRestaurantImage', ensureLoggedIn, function(req, res, next){
 });
 
 // POST request to edit image
-router.post('/editRestaurantImage', upload4.single('restaurantImage'), editRestaurantImage, function(req, res, next){
+router.post('/editRestaurantImage', upload.uploadRestaurant.single('restaurantImage'), editRestaurantImage, function(req, res, next){
     res.redirect('/users/admin');
 });
 
@@ -358,7 +327,7 @@ function ensureLoggedIn(req, res, next) {
 
 // POST on admin page to add a new offer.
 // Redirects to admin page
-router.post('/addOffer', upload3.single('offerImage'), function(req, res, next) {
+router.post('/addOffer', upload.uploadOffer.single('offerImage'), function(req, res, next) {
     // Get values from form
     var offerName = req.body.offerName;
     var price = req.body.price;
@@ -496,7 +465,7 @@ function getValues(req, res, next) {
 }
 
 
-router.post('/editOffer:id', upload3.single('offerImage'), editOffer, function(req, res, next) {
+router.post('/editOffer:id', upload.uploadOffer.single('offerImage'), editOffer, function(req, res, next) {
     res.redirect('/users/admin');
 });
 

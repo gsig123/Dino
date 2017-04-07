@@ -11,6 +11,7 @@ var flash = require('connect-flash');
 var bcrypt = require('bcryptjs');
 var pg = require('pg');
 var cons = require('consolidate');
+require('dotenv').config();
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -63,7 +64,7 @@ app.use(function(req, res, next){
 
 // Set User up as a global variable
 app.get('*', function(req, res, next){
-  res.locals.user = req.session.user || null; 
+  res.locals.user = req.session.user || null;
   next();
 });
 
