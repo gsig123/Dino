@@ -7,6 +7,33 @@ var DBController = require('../lib/DBController');
 
 var authentication = require('../middleware/authentication');
 
+var aws = require('aws-sdk');
+aws.config.loadFromPath('./AwsConfig.json');
+var multerS3 = require('multer-s3');
+var s3 = new aws.S3({});
+
+var upload3 = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'dino-offer-img',
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString() + ".jpg");
+    }
+  })
+});
+
+var upload4 = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'dino-rest-img',
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString + ".jpg");
+    }
+  })
+});
+
 
 // GET Login view. calls middleware "redirectIfLoggedIn" to check if
 // user is already logged in and then redirects.
@@ -58,7 +85,7 @@ router.get('/signup', function(req, res, next) {
 // POST on signup view.
 // Tries to signup a new user.
 // If errors -> Render signup page with errors.
-router.post('/signup', upload.single('restaurantImage'), function(req, res, next) {
+router.post('/signup', upload4.single('restaurantImage'), function(req, res, next) {
 
     // Get values from form
     var restaurantName = req.body.restaurantName;
@@ -74,7 +101,7 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
 
     // Check image upload
     if (req.file) {
-        var restaurantImageName = req.file.filename;
+        var restaurantImageName = req.file.location;
     } else {
         var restaurantImageName = 'noImage.jpg';
     }
@@ -133,7 +160,7 @@ router.post('/signup', upload.single('restaurantImage'), function(req, res, next
 // Returns JSON object => successful = false / true
 // Tries to signup a new user.
 // If errors -> Render signup page with errors.
-router.post('/api-signup', upload.single('restaurantImage'), function(req, res, next) {
+router.post('/api-signup', upload4.single('restaurantImage'), function(req, res, next) {
 
     // Get values from form
     var restaurantName = req.body.restaurantName;
@@ -148,7 +175,7 @@ router.post('/api-signup', upload.single('restaurantImage'), function(req, res, 
 
     // Check image upload
     if (req.file) {
-        var restaurantImageName = req.file.filename;
+        var restaurantImageName = req.file.location;
     } else {
         var restaurantImageName = 'noImage.jpg';
     }
@@ -294,7 +321,7 @@ router.get('/editRestaurantImage', ensureLoggedIn, function(req, res, next){
 });
 
 // POST request to edit image
-router.post('/editRestaurantImage', upload.single('restaurantImage'), editRestaurantImage, function(req, res, next){
+router.post('/editRestaurantImage', upload4.single('restaurantImage'), editRestaurantImage, function(req, res, next){
     res.redirect('/users/admin');
 });
 
@@ -303,7 +330,7 @@ function editRestaurantImage(req, res, next){
     var id = req.session.user.id;
     // Check image upload
     if (req.file) {
-        var restaurantImg = req.file.filename;
+        var restaurantImg = req.file.location;
         DBController.editRestaurantImageById(id, restaurantImg, function(err, result){
             if(err) throw err;
             res.redirect('/users/admin');
@@ -331,7 +358,7 @@ function ensureLoggedIn(req, res, next) {
 
 // POST on admin page to add a new offer.
 // Redirects to admin page
-router.post('/addOffer', upload2.single('offerImage'), function(req, res, next) {
+router.post('/addOffer', upload3.single('offerImage'), function(req, res, next) {
     // Get values from form
     var offerName = req.body.offerName;
     var price = req.body.price;
@@ -352,7 +379,8 @@ router.post('/addOffer', upload2.single('offerImage'), function(req, res, next) 
 
     // Check image upload
     if (req.file) {
-        var offerImageName = req.file.filename;
+        // var offerImageName = req.file.filename;
+        var offerImageName = req.file.location;
     } else {
         var offerImageName = 'noOfferImage.jpg';
     }
@@ -468,7 +496,7 @@ function getValues(req, res, next) {
 }
 
 
-router.post('/editOffer:id', upload2.single('offerImage'), editOffer, function(req, res, next) {
+router.post('/editOffer:id', upload3.single('offerImage'), editOffer, function(req, res, next) {
     res.redirect('/users/admin');
 });
 
@@ -493,7 +521,7 @@ function editOffer(req, res, next) {
 
     // Check image upload
     if (req.file) {
-        var offerImageName = req.file.filename;
+        var offerImageName = req.file.location;
     } else {
         var offerImageName = req.body.originalOfferImage;
     }
