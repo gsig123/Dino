@@ -4,48 +4,42 @@ var SearchParams = require('../lib/SearchParams');
 var SearchController = require('../lib/SearchController');
 var DBController = require('../lib/DBController');
 
-
-// TEST
-var DBController = require('../lib/DBController');
-
 // GET index
 // Render with title
-router.get('/', initIfNeeded, function(req, res, next) {
+router.get('/', initIfNeeded, getOfferlist, function(req, res, next) {
 
     // Get params from session
-    console.log(req.session.params);
     var params = req.session.params;
-    console.log(params);
-    var types = params.types;
-    var priceRange = params.priceRange;
-    var searchBar = params.searchBar;
-    var sortBy = params.sortBy;
-    var ordering = params.ordering;
-    SearchController.getOfferList(params, function(err, offerlist) {
-        if (err) throw err;
-        // render with params
-        res.render('index', { title: 'Dino', types: types, priceRange: priceRange, searchBar: searchBar, sortBy: sortBy, ordering: ordering, offerlist: offerlist });
-    });
+    res.render('index',
+    {title: 'Dino',
+     types: params.types,
+     priceRange: params.priceRange,
+     searchBar: params.searchBar,
+     sortBy: params.sortBy,
+     ordering: params.ordering,
+     offerlist: req.offerlist });
 });
 
 
-router.post('/api-offerlist', function(req, res, next){
+function getOfferlist(req, res, next){
+  SearchController.getOfferList(req.session.params, function(err, offerlist){
+    if(err) throw err;
+    // Put the offerlist in the request.
+    req.offerlist = offerlist;
+    next();
+  });
+}
+
+
+router.post('/api-offerlist', initIfNeeded, getOfferlist, function(req, res, next){
   // Get params from session
-  var params = req.body;
-    SearchController.getOfferList(params, function(err, offerlist) {
-        if (err) {
-          res.send("{error: error}");o
-        }
-        // Send offerlist as JSON object
-        res.send(offerlist);
-    });
+  res.send(req.offerlist);
 });
 
 
 // Checks if params are in session.
 // Initializes if they are missing.
 function initIfNeeded(req, res, next) {
-    console.log("We here mayne");
     if (!req.session.params) {
         SearchParams.init(req, function(params) {
             next();
