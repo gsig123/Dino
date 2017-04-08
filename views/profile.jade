@@ -1,44 +1,55 @@
 extends layout
 
 block content
-	div(class="well restProfile-info-container col-xs-12 col-sm-12 col-md-8 col-lg-8")
+	div(class="well restProfile-info-container col-xs-12 col-sm-12 col-md-12 col-lg-12")
 		div(class="row")
-			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title")
-				h1(class="text-center") #{restaurantInfo.restaurantName}
-			div(class="col-xs-12 col-sm-12 col-md-8 col-lg-8")
-				img(src="#{restaurantInfo.image}")
-			div(class="col-xs-12 col-sm-12 col-md-4 col-lg-4")
-				h3 Info
-				each branch in branches 
-					p #{branch.address}
-					p #{branch.postal}
-					p #{branch.city}
-				i(class="glyphicon glyphicon-earphone")
-				a(href="tel:#{restaurantInfo.phonenumber}") #{restaurantInfo.phonenumber} 
-				br
-				br
-				i(class="glyphicon glyphicon-globe")
-				a(href="http://#{restaurantInfo.website}") Website
-			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
-				h3 Description
+			div(class="profile-pic-container col-xs-12 col-sm-12 col-md-3 col-lg-3")
+				img(class="profile-pic" src="#{restaurantInfo.image}")
+			div(class="profile-name-container col-xs-12 col-sm-12 col-md-9 col-lg-9")
+				h1(class="profile-name") #{restaurantInfo.restaurantName}
+			div(class="col-xs-12 col-sm-12 col-md-9 col-lg-9")
+				hr(class="profile-line")
+			div(class="col-xs-12 col-sm-12 col-md-9 col-lg-9")
 				p #{restaurantInfo.description}
-	div(class="restProfile-offer-container col-xs-12 col-sm-12 col-md-4 col-lg-4")
-		div(class="well col-xs-12 col-sm-12 col-md-12 col-lg-12")
-			div(class="row")
-				div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")
-					h2(class="text-center") Offers
-					each offer in offers
-						a(data-toggle="collapse" href="##{offer.id}" aria-expanded="false" aria-controls="")
-							div(class="well offer-hover-class")
-								div(class="pull-left")
-									h4(class="pull-left bold") #{offer.name}
-								div(class="pull-right")
-									h4(class="pull-left price") #{offer.price} kr
-								div(class="clearfix")
-								div(class="collapse" id="#{offer.id}") 
-									h5(class="bold") Description
-									p #{offer.description}
-									h5(class="bold") Type
-									p #{offer.type}
-									h5(class="bold") Time
-									p #{offer.timeFrom} to #{offer.timeTo}
+			div(class="col-xs-12 col-sm-12 col-md-9 col-lg-9")
+				hr(class="profile-line")
+			div(class="profile-contact col-xs-12 col-sm-12 col-md-9 col-lg-9")
+				each branch in branches 
+					div(class="profile-contact-item col-xs-12 col-sm-12 col-md-4 col-lg-4")
+						div(class="profile-contact-icon-container col-xs-3 col-sm-2 col-md-3 col-lg-3")
+							img(class="profile-contact-icon" src="/icons/map.svg")
+						div(class="profile-contact-text-container col-xs-8 col-sm-8 col-md-9 col-lg-9")
+							p #{branch.address}
+							p #{branch.postal} #{branch.city}
+					div(class="profile-contact-item col-xs-12 col-sm-12 col-md-4 col-lg-4")
+						div(class="profile-contact-icon-container col-xs-3 col-sm-2 col-md-3 col-lg-3")
+							img(class="profile-contact-icon" src="/icons/phone.svg")
+						div(class="profile-contact-text-container profile-contact-item col-xs-8 col-sm-8 col-md-9 col-lg-9")
+							a(href="tel:#{restaurantInfo.phonenumber}") #{restaurantInfo.phonenumber} 
+					div(class="profile-contact-item col-xs-12 col-sm-12 col-md-4 col-lg-4")
+						div(class="profile-contact-icon-container col-xs-3 col-sm-2 col-md-3 col-lg-3")
+							img(class="profile-contact-icon" src="/icons/web.svg")
+						div(class="profile-contact-text-container col-xs-8 col-sm-8 col-md-9 col-lg-9")
+							a(href="http://#{restaurantInfo.website}") Visit Website
+	div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12")			
+		if offers
+			each offer in offers
+				div(class="offerContainer col-xs-12 col-sm-6 col-md-4 col-lg-3")
+					a(data-toggle="modal" data-target=".offer-modal-#{offer.id}")
+						div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well" )
+							h4(class="offerName") #{offer.name}
+							h4(class="type") #{offer.type}
+							h4(class="price") #{offer.price} kr
+
+				//- Offer Modal View
+				div(class="modalContainer modal fade offer-modal-#{offer.id}" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel")
+					div(class="modal-dialog modal-sm" role="document")
+						div(class="modal-content")
+							img(src="#{offer.photo}")
+							div(class="modal-text-container")
+								h2 #{offer.name}
+								p #{offer.description}
+								h5(class="bold") Time
+								p #{offer.timeFrom} to #{offer.timeTo}
+								h3(class="price") #{offer.price} kr
+								a(href="/profile#{offer.restId}") #{offer.restName}

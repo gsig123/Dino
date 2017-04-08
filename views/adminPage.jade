@@ -1,30 +1,37 @@
+
 extends layout
 
 block content
-
-	div(class="well restProfile-info-container")
+	div(class="well restProfile-info-container col-xs-12 col-sm-12 col-md-12 col-lg-12")
 		div(class="row")
-			div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 title")
-				h1(class="text-center") #{restaurantName}
-			div(class="col-xs-12 col-sm-6 col-md-6 col-lg-6")
-				img(src="#{image}")
-			div(class="col-xs-12 col-sm-6 col-md-6 col-lg-6")
-				h3 Description
+			div(class="profile-pic-container col-xs-12 col-sm-12 col-md-3 col-lg-3")
+				img(class="profile-pic" src="#{image}")
+			div(class="profile-name-container col-xs-12 col-sm-12 col-md-9 col-lg-9")
+				h1(class="profile-name") #{restaurantName}
+			div(class="col-xs-12 col-sm-12 col-md-9 col-lg-9")
+				hr(class="profile-line")
+			div(class="col-xs-12 col-sm-12 col-md-9 col-lg-9")
 				p #{description}
-				h3 Info
-				if branches
-					each branch in branches 
-						p #{branch.address}
-						p #{branch.postal}
-						p #{branch.city}
-				i(class="glyphicon glyphicon-earphone")
-				a(href="tel:#{phonenumber}") #{phonenumber} 
-				br
-				br
-				i(class="glyphicon glyphicon-globe")
-				a(href="http://#{website}") Website
-				br
-				br
+			div(class="col-xs-12 col-sm-12 col-md-9 col-lg-9")
+				hr(class="profile-line")
+			div(class="profile-contact col-xs-12 col-sm-12 col-md-9 col-lg-9")
+				each branch in branches 
+					div(class="profile-contact-item col-xs-12 col-sm-12 col-md-4 col-lg-4")
+						div(class="profile-contact-icon-container col-xs-3 col-sm-2 col-md-3 col-lg-3")
+							img(class="profile-contact-icon" src="/icons/map.svg")
+						div(class="profile-contact-text-container col-xs-8 col-sm-8 col-md-9 col-lg-9")
+							p #{branch.address}
+							p #{branch.postal} #{branch.city}
+					div(class="profile-contact-item col-xs-12 col-sm-12 col-md-4 col-lg-4")
+						div(class="profile-contact-icon-container col-xs-3 col-sm-2 col-md-3 col-lg-3")
+							img(class="profile-contact-icon" src="/icons/phone.svg")
+						div(class="profile-contact-text-container profile-contact-item col-xs-8 col-sm-8 col-md-9 col-lg-9")
+							a(href="tel:#{phonenumber}") #{phonenumber} 
+					div(class="profile-contact-item col-xs-12 col-sm-12 col-md-4 col-lg-4")
+						div(class="profile-contact-icon-container col-xs-3 col-sm-2 col-md-3 col-lg-3")
+							img(class="profile-contact-icon" src="/icons/web.svg")
+						div(class="profile-contact-text-container col-xs-8 col-sm-8 col-md-9 col-lg-9")
+							a(href="http://#{website}") Visit Website
 				div
 					a(class="btn btn-primary", href="/users/editRestaurantInfo") Edit Info
 					a(class="btn btn-primary", href="/users/editRestaurantImage") Change Photo
