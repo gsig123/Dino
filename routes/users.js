@@ -54,7 +54,7 @@ router.get('/signup', function(req, res, next) {
 // POST on signup view.
 // Tries to signup a new user.
 // If errors -> Render signup page with errors.
-router.post('/signup', upload.uploadRestaurant.single('restaurantImage'), function(req, res, next) {
+router.post('/signup', upload.uploadImage.single('restaurantImage'), function(req, res, next) {
 
     // Get values from form
     var restaurantName = req.body.restaurantName;
@@ -129,7 +129,7 @@ router.post('/signup', upload.uploadRestaurant.single('restaurantImage'), functi
 // Returns JSON object => successful = false / true
 // Tries to signup a new user.
 // If errors -> Render signup page with errors.
-router.post('/api-signup', upload.uploadRestaurant.single('restaurantImage'), function(req, res, next) {
+router.post('/api-signup', upload.uploadImage.single('restaurantImage'), function(req, res, next) {
 
     // Get values from form
     var restaurantName = req.body.restaurantName;
@@ -290,7 +290,7 @@ router.get('/editRestaurantImage', ensureLoggedIn, function(req, res, next){
 });
 
 // POST request to edit image
-router.post('/editRestaurantImage', upload.uploadRestaurant.single('restaurantImage'), editRestaurantImage, function(req, res, next){
+router.post('/editRestaurantImage', upload.uploadImage.single('restaurantImage'), editRestaurantImage, function(req, res, next){
     res.redirect('/users/admin');
 });
 
@@ -327,7 +327,7 @@ function ensureLoggedIn(req, res, next) {
 
 // POST on admin page to add a new offer.
 // Redirects to admin page
-router.post('/addOffer', upload.uploadOffer.single('offerImage'), function(req, res, next) {
+router.post('/addOffer', upload.uploadImage.single('offerImage'), function(req, res, next) {
     // Get values from form
     var offerName = req.body.offerName;
     var price = req.body.price;
@@ -465,7 +465,7 @@ function getValues(req, res, next) {
 }
 
 
-router.post('/editOffer:id', upload.uploadOffer.single('offerImage'), editOffer, function(req, res, next) {
+router.post('/editOffer:id', upload.uploadImage.single('offerImage'), editOffer, function(req, res, next) {
     res.redirect('/users/admin');
 });
 

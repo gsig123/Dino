@@ -12,24 +12,13 @@ aws.config = awsConfig;
 
 var s3 = new aws.S3({});
 
-module.exports.uploadOffer = multer({
+module.exports.uploadImage = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'dino-offer-img',
     acl: 'public-read',
     key: function (req, file, cb) {
       cb(null, Date.now().toString() + ".jpg");
-    }
-  })
-});
-
-module.exports.uploadRestaurant = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: 'dino-rest-img',
-    acl: 'public-read',
-    key: function (req, file, cb) {
-      cb(null, Date.now().toString + ".jpg");
     }
   })
 });
